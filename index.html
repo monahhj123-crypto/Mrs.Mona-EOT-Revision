@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EoT3 Interactive Revision · Mrs. Mona Mohamed</title>
+<style>
+:root{--navy:#0b2447;--navy2:#13315c;--gold:#c8a13a;--gold-l:#f1e2b3;--paper:#f7f5ef;--ink:#1b2533;--line:#dcd6c4;--good:#2e7d32;--bad:#c62828;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Calibri,Arial,sans-serif;background:var(--paper);color:var(--ink);}
+header.site{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:18px;text-align:center;border-bottom:4px solid var(--gold);}
+header.site h1{margin:4px 0 2px;font-size:1.25rem;}
+header.site p{margin:0;font-size:.82rem;color:var(--gold-l);}
+nav.gradebar{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0 4px;}
+nav.gradebar button{background:#fff;border:2px solid var(--navy);color:var(--navy);padding:7px 14px;border-radius:18px;font-weight:bold;cursor:pointer;font-size:.85rem;}
+nav.gradebar button.active{background:var(--navy);color:#fff;}
+nav.sectionbar{display:flex;justify-content:center;gap:6px;margin:6px 0 14px;}
+nav.sectionbar button{background:var(--gold-l);border:1px solid var(--gold);color:var(--navy);padding:6px 14px;border-radius:14px;font-size:.8rem;font-weight:bold;cursor:pointer;}
+nav.sectionbar button.active{background:var(--gold);}
+main{max-width:760px;margin:0 auto;padding:0 14px 50px;}
+.card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:8px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+h2.section{color:var(--navy);border-bottom:2px solid var(--gold);padding-bottom:6px;font-size:1.05rem;margin-top:4px;}
+.btn{font-family:Calibri,Arial,sans-serif;background:var(--navy);color:#fff;border:none;padding:9px 16px;border-radius:6px;font-weight:bold;cursor:pointer;font-size:.85rem;}
+.btn.gold{background:var(--gold);color:var(--navy);}
+.btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--navy);}
+.btn.sm{padding:5px 10px;font-size:.75rem;}
+.btn:disabled{opacity:.5;cursor:default;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.pill{display:inline-block;background:var(--gold-l);color:var(--navy);font-size:.7rem;padding:2px 8px;border-radius:10px;margin-right:4px;}
+/* flashcard */
+.flashcard{text-align:center;padding:26px 16px;}
+.flashcard .word{font-size:1.7rem;color:var(--navy);font-weight:bold;font-family:'Times New Roman',serif;}
+.flashcard .sentence{font-style:italic;color:#444;margin:14px 0;font-size:.95rem;}
+.flashcard .ar{font-size:1.3rem;color:var(--gold);direction:rtl;min-height:1.6em;margin-top:6px;}
+.flashcard .counter{font-size:.75rem;color:#888;margin-bottom:10px;}
+.navrow{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap;}
+/* grammar */
+.gp{margin-bottom:14px;}
+.gp summary{cursor:pointer;font-weight:bold;color:var(--navy);padding:10px 0;font-size:.95rem;}
+.formula{background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 10px;font-size:.85rem;margin:8px 0;}
+.tip{background:#eef8ee;border-left:4px solid var(--good);border-radius:4px;padding:6px 10px;font-size:.8rem;margin:6px 0;}
+.warn{background:#fdeeee;border-left:4px solid var(--bad);border-radius:4px;padding:6px 10px;font-size:.8rem;margin:6px 0;}
+.ex{font-size:.85rem;color:#333;margin:4px 0;}
+/* quiz */
+.qhead{font-size:.78rem;color:#888;margin-bottom:6px;}
+.qtext{color:var(--navy);font-size:1.02rem;margin-bottom:10px;font-weight:bold;}
+.passage{background:#fbfaf5;border:1px solid var(--line);border-radius:6px;padding:12px;font-size:.88rem;line-height:1.5;margin-bottom:14px;max-height:340px;overflow-y:auto;}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #ccc;border-radius:5px;padding:9px 10px;margin:5px 0;cursor:pointer;font-size:.9rem;}
+.opt:disabled{cursor:default;}
+.opt.correctOpt{border-color:var(--good);background:#eaf6ea;}
+.opt.wrongOpt{border-color:var(--bad);background:#fdecec;}
+.fb{font-size:.85rem;margin-top:8px;font-weight:bold;}
+.score-banner{background:var(--navy);color:#fff;padding:16px;border-radius:8px;text-align:center;}
+.score-banner .big{font-size:1.9rem;color:var(--gold-l);font-weight:bold;}
+footer{text-align:center;font-size:.72rem;color:#777;padding:18px;}
+.hidden{display:none !important;}
+nav.modebar{display:flex;justify-content:center;gap:10px;margin:14px 0 4px;}
+nav.modebar button{font-family:Calibri,Arial,sans-serif;background:#fff;border:2px solid var(--navy);color:var(--navy);padding:8px 18px;border-radius:20px;font-weight:bold;cursor:pointer;}
+nav.modebar button.active{background:var(--navy);color:#fff;}
+label{font-size:.82rem;display:block;margin:8px 0 3px;font-weight:bold;color:var(--navy);}
+input[type=text],input[type=password],textarea,select{width:100%;padding:8px;border:1px solid #bbb;border-radius:5px;font-family:Calibri,Arial,sans-serif;font-size:.85rem;}
+textarea{min-height:56px;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;}
+th{background:var(--navy);color:#fff;}
+.cert{border:10px double var(--gold);padding:30px;text-align:center;background:#fffefb;}
+.cert h2{border:none;font-size:1.5rem;color:var(--navy);font-family:'Times New Roman',serif;}
+.cert .name{font-size:1.7rem;color:var(--gold);font-family:'Times New Roman',serif;border-bottom:2px solid var(--navy);display:inline-block;padding:0 20px 6px;margin:14px 0;}
+.sig{display:flex;justify-content:space-around;margin-top:30px;font-size:.82rem;}
+.sig div{border-top:1px solid #333;padding-top:4px;width:42%;}
+.msg{font-size:.82rem;font-weight:bold;margin-top:6px;}
+@media print{header.site,nav,.no-print{display:none !important;} body{background:#fff;} main{padding:0;}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>📚 End of Term 3 — Interactive Revision</h1>
+  <p>Mrs. Mona Mohamed · Qatr Al Nada School · Al Dhafra Region, Abu Dhabi</p>
+</header>
+
+<nav class="modebar">
+  <button id="btnStudentMode" class="active" onclick="setMode('student')">🎒 Student</button>
+  <button id="btnTeacherMode" onclick="setMode('teacher')">👩‍🏫 Teacher Tools</button>
+</nav>
+<nav class="gradebar" id="gradebar"></nav>
+<nav class="sectionbar" id="sectionbar"></nav>
+<main id="main"></main>
+<footer>Prepared by Mrs. Mona Mohamed · Qatr Al Nada School · School Principal: Mrs. Ashwaq Almansouri</footer>
+
+<script>
+/* ===================== DATA ===================== */
+const sp = (text, sentence) => `🔊`; // placeholder, speak handled in JS
+
+const G910_VOCAB = [
+["accommodation","مسكن / إقامة","I am looking for affordable accommodation near the university."],
+["landlord","صاحب العقار","The landlord fixed the broken heating before winter arrived."],
+["security deposit","وديعة الضمان","You need to pay a security deposit of one month's rent before moving in."],
+["refundable","قابل للاسترداد","The deposit is refundable if you leave the flat clean and undamaged."],
+["unfurnished","غير مفروش","The flat is unfurnished — you must buy your own furniture."],
+["furnished","مفروش","The furnished flat includes a bed, sofa, and dining table."],
+["dormitory (dorm)","مسكن طلابي","Many first-year students live in the dormitory on campus."],
+["meal plan","خطة الوجبات","Her meal plan includes breakfast and dinner every day."],
+["on campus","داخل الحرم الجامعي","Living on campus saves time and transport costs."],
+["off campus","خارج الحرم الجامعي","She rented a flat off campus to have more independence."],
+["co-op (shared housing)","مسكن تعاوني","A co-op is a shared house where residents split the chores."],
+["privacy","خصوصية","One downside of sharing a room is that you lose your privacy."],
+["downside","عيب / جانب سلبي","The downside of living off campus is the long daily commute."],
+["shared facilities","مرافق مشتركة","The building has shared facilities: a gym, pool, and laundry room."],
+["request","طلب","She made a polite request to the landlord about fixing the heating."],
+["I'm afraid...","أتأسف / آسف (للاعتذار)","I'm afraid we do not allow pets in the building."],
+["cultural norms","الأعراف الثقافية","Every country has its own cultural norms around dining and hospitality."],
+["adapt","يتكيّف","When you travel, you should try to adapt to local customs."],
+["custom","عادة / تقليد","It is a custom in Japan to remove shoes before entering a home."],
+["impression","انطباع","She made a great first impression by following local dining customs."],
+["amazed","مندهش / مبهوت","He was amazed to discover that slurping noodles is polite in Japan."],
+["formal","رسمي","Please wear smart clothes — the dinner is very formal."],
+["informal","غير رسمي","The lunch was very informal — everyone sat on the floor."],
+["napkin","منديل المائدة","Always place your napkin on your lap during a formal meal."],
+["silverware","أدوات المائدة الفضية","The silverware included a fork, knife, and spoon."],
+["utensil","أداة مائدة","A fork is a common eating utensil in Western countries."],
+["set the table","يُعدّ / يرتّب المائدة","Could you help me set the table before our guests arrive?"],
+["serve","يُقدّم","It is polite to serve guests before helping yourself."],
+["behave","يتصرف / يسلك","Always behave politely when visiting someone else's home."],
+["handle","يتعامل مع / يمسك","Learn how to handle chopsticks before visiting Japan."]
+].map(([w,ar,s])=>({w,ar,s}));
+
+const G910_VOCAB_QUIZ = [
+{q:"The flat is completely _____. You will need to buy a bed, a sofa, and a wardrobe before you can move in.",opts:["furnished","unfurnished","onsite"],correct:"unfurnished"},
+{q:"She was completely _____ when her Japanese host family asked her to remove her shoes at the front door.",opts:["formal","adapt","amazed"],correct:"amazed"},
+{q:"The _____ of living in a co-op is that you must share all household chores with the other residents.",opts:["privacy","downside","request"],correct:"downside"},
+{q:"It is a dining _____ in France to keep both hands visible on the table during a meal.",opts:["custom","impression","utensil"],correct:"custom"},
+{q:"The security deposit is _____. You will receive all your money back when you leave the flat in good condition.",opts:["onsite","refundable","furnished"],correct:"refundable"},
+{q:"She paid three months' rent to the _____ who owns the apartment building on the main road.",opts:["co-op","dormitory","landlord"],correct:"landlord"},
+{q:"Could you show me how to _____ the table before our guests arrive this evening?",opts:["behave","set","serve"],correct:"set"},
+{q:"Place your _____ on your lap when you sit down — never tuck it into your collar at a formal dinner.",opts:["silverware","napkin","utensil"],correct:"napkin"},
+{q:"In Japan, it is considered very polite to _____ the oldest person at the table first before helping yourself.",opts:["adapt","handle","serve"],correct:"serve"},
+{q:"He made a very good first _____ at the dinner by following all the local cultural customs carefully.",opts:["impression","leftovers","napkin"],correct:"impression"}
+];
+
+const G910_GRAMMAR = [
+{code:"G.10.1 + G.10.2",title:"Passive Voice (Present & Past)",
+ explain:"We use the passive voice when we focus on the ACTION rather than who does it.",
+ formula:"Subject + is/are + past participle (present) · was/were + past participle (past)",
+ examples:["English is taught in schools across the UAE.","New homes are built from recycled materials every year."],
+ tip:"Look for time markers: 'every year','now' → present passive | 'yesterday','last year','in [year]' → past passive.",
+ warn:"Plural subjects need ARE/WERE. Singular subjects need IS/WAS.",
+ exercises:[
+  {q:"New apartments _____ in this neighborhood every single year.",opts:["are built","is built","were built"],correct:"are built"},
+  {q:"This ancient mosque _____ by skilled craftsmen over 500 years ago.",opts:["is built","was built","were built"],correct:"was built"},
+  {q:"English _____ as an official language in many countries around the world.",opts:["teaches","was taught","is taught"],correct:"is taught"},
+  {q:"The dining customs of this community _____ down through many generations.",opts:["was passed","were passed","are passing"],correct:"were passed"},
+  {q:"The flat _____ cleaned by the building staff every single morning.",opts:["is","are","were"],correct:"is"}
+ ]},
+{code:"G.17.4",title:"Indirect Questions",
+ explain:"We use indirect questions to ask politely — they sound less direct than normal questions.",
+ formula:"Question word + subject + verb (NO inversion, NO auxiliary)",
+ examples:["Could you tell me where the library is? ✓","Could you tell me where is the library? ✗"],
+ tip:"Compare: Direct 'Where IS the library?' vs Indirect 'Could you tell me where the library IS?' — the verb moves after the subject.",
+ warn:"NEVER use does/did after the question word in an indirect question.",
+ exercises:[
+  {q:"Could you tell me where _____ the nearest bus stop?",opts:["is","the nearest bus stop is","does the nearest bus stop go"],correct:"the nearest bus stop is"},
+  {q:"I'd like to know when _____ the landlord usually collects the rent.",opts:["the landlord usually collects the rent","does the landlord usually collect the rent","did the landlord collect the rent"],correct:"the landlord usually collects the rent"},
+  {q:"Do you know _____ the room includes a meal plan or not?",opts:["whether","that","what does"],correct:"whether"},
+  {q:"She asked me _____ I had ever lived in shared accommodation before.",opts:["that","if","what"],correct:"if"},
+  {q:"Can you tell me _____ this building was constructed?",opts:["when was","when","that when"],correct:"when"}
+ ]},
+{code:"G.1.2",title:"Comparative Adjectives",
+ explain:"We use comparatives to compare two things. Short adjectives (1 syllable) take -er + than. Long adjectives (2+ syllables) take more + adjective + than.",
+ formula:"big→bigger | cheap→cheaper | comfortable→more comfortable | good→better | bad→worse",
+ examples:["This house is bigger than ours.","Online courses are getting more and more popular."],
+ tip:"CVC rule: short adjectives ending consonant-vowel-consonant double the final consonant — big→bigger, hot→hotter.",
+ warn:"NEVER say 'more cheaper' or 'more bigger' — double comparatives are always wrong.",
+ exercises:[
+  {q:"Living off campus is far _____ than staying in the dormitory.",opts:["more cheaper","cheaper","cheapest"],correct:"cheaper"},
+  {q:"The new flat is much _____ than the old one — it has three bedrooms.",opts:["biger","larger","more large"],correct:"larger"},
+  {q:"This accommodation is _____ than the dormitory because it has a private kitchen.",opts:["more comfortable","comfortabler","most comfortable"],correct:"more comfortable"},
+  {q:"The hotel was even _____ than we expected — it had a rooftop swimming pool.",opts:["goodder","more good","better"],correct:"better"},
+  {q:"Online courses are getting _____ popular every single year.",opts:["more and more","more and most","the most"],correct:"more and more"}
+ ]},
+{code:"G.2.2",title:"Sequencing Adverbs",
+ explain:"We use sequencing adverbs to show the ORDER of events or steps in a process.",
+ formula:"First → first step | Then / Next / After that → following steps | Finally / Lastly → last step",
+ examples:["First, heat the oil in the pan.","Then, add the vegetables.","Finally, serve the dish hot."],
+ tip:"'First' introduces the very first action. 'After that' connects to what comes next. 'Finally' signals the last step.",
+ warn:"'Initially' means at the very beginning — do not use it for the last step.",
+ exercises:[
+  {q:"_____, gather all your ingredients and check that nothing is missing.",opts:["After that","First","Finally"],correct:"First"},
+  {q:"Stir the mixture gently. _____, reduce the heat and let it simmer for ten minutes.",opts:["First","After that","Before"],correct:"After that"},
+  {q:"Add the herbs and spices. _____, serve the dish while it is still hot.",opts:["Initially","Previously","Finally"],correct:"Finally"},
+  {q:"_____, the foundation of the building was laid carefully in the ground.",opts:["Finally","After that","First"],correct:"First"},
+  {q:"The architect drew the plan. _____, the workers began constructing the walls.",opts:["First","Then","Before that"],correct:"Then"}
+ ]},
+{code:"G.2.8",title:"Adverbs of Degree",
+ explain:"Adverbs of degree describe intensity — HOW MUCH or to what extent. They go before the adjective/verb/adverb. 'Enough' is the exception — it always goes after.",
+ formula:"very/incredibly/extremely + adjective | just/almost/nearly + verb | very/too + adverb | adjective/adverb + enough",
+ examples:["The students are very smart.","This pizza is big enough for all of us."],
+ tip:"'Enough' can be used in both positive and negative sentences.",
+ warn:"Do not confuse 'too' (excessive, a problem) with 'very' (simply stronger). 'This movie is too good' ✗ → 'very good' ✓",
+ exercises:[
+  {q:"The students are not working fast _____ to finish before the bell rings.",opts:["very","too","enough"],correct:"enough"},
+  {q:"This jacket is _____ small for me — I can't even zip it up.",opts:["very","too","enough"],correct:"too"},
+  {q:"The painting in the gallery was _____ beautiful, and everyone stopped to admire it.",opts:["too","enough","very"],correct:"very"},
+  {q:"She has _____ finished her homework — only one question is left.",opts:["nearly","enough","too"],correct:"nearly"},
+  {q:"Be careful — the soup is _____ hot, so don't burn yourself.",opts:["enough","extremely","nearly"],correct:"extremely"},
+  {q:"He finished the exam _____ quickly and still had time to check his answers.",opts:["too","very","enough"],correct:"very"}
+ ]},
+{code:"Mixed Review",title:"Narrative Gap-Fill — A Short History of Building",
+ explain:"Read the full text, then choose the correct word/phrase for each gap. This mixes everything above: passive voice, indirect questions, comparatives and sequencing adverbs.",
+ formula:"For thousands of years, homes (1)_____ from natural materials such as mud, stone, and wood... Historians wonder (2)_____ early builders shared their construction skills... techniques (3)_____ down from one generation to the next... insulated homes became far (4)_____ than open shelters... (5)_____, the site was carefully prepared and the foundation was laid deep into the ground.",
+ examples:[],tip:"Read the sentence before AND after each gap before choosing.",warn:"",
+ exercises:[
+  {q:"Gap (1): homes _____ from natural materials.",opts:["were made","are making","makes"],correct:"were made"},
+  {q:"Gap (2): Historians wonder _____ early builders shared their skills.",opts:["how did","whether","how"],correct:"how"},
+  {q:"Gap (3): techniques _____ down from one generation to the next.",opts:["was passed","were passed","passing"],correct:"were passed"},
+  {q:"Gap (4): insulated homes became far _____ than open shelters.",opts:["more comfortable","comfortable","most comfortable"],correct:"more comfortable"},
+  {q:"Gap (5): _____, the site was carefully prepared.",opts:["After that","First","Finally"],correct:"First"}
+ ]}
+];
+
+const TFNG = ["TRUE","FALSE","NOT GIVEN"];
+const G910_READING = [
+{type:"tfng",title:"Beautiful Architecture",
+ passage:"When people call a building beautiful, they rarely explain exactly what they mean. Ideas about beautiful architecture have changed greatly across history and cultures. In ancient Greece and Rome, architects believed that beauty came from symmetry and precise mathematical ratios. The Parthenon in Athens was built with exact proportions designed to create a feeling of balance and harmony. Islamic architecture developed a completely different vision. Builders focused on intricate geometric patterns, calligraphy, and the creative use of light and space. The Great Mosque of Cordoba in Spain creates a feeling of almost endless space through its hundreds of carefully arranged arches. In the 20th century, Frank Lloyd Wright argued that a beautiful building must connect with its natural environment. His famous house, Fallingwater, was built directly above a waterfall. Today, many architects believe that beauty is not just about appearance — it is also about how well a building serves the people who use it.",
+ exercises:[
+  {q:"Ancient Greek architects believed that beauty in buildings came from balance and mathematical proportion.",opts:TFNG,correct:"TRUE"},
+  {q:"The Great Mosque of Cordoba is located in Morocco.",opts:TFNG,correct:"FALSE"},
+  {q:"Frank Lloyd Wright studied architecture in France before designing Fallingwater.",opts:TFNG,correct:"NOT GIVEN"},
+  {q:"Today, many architects believe beauty includes how well a building serves its users.",opts:TFNG,correct:"TRUE"},
+  {q:"The Parthenon was completed in less than ten years.",opts:TFNG,correct:"NOT GIVEN"},
+  {q:"Islamic architecture used symmetry as its main design principle.",opts:TFNG,correct:"FALSE"}
+ ]},
+{type:"mcq",title:"Homes Through Time",
+ passage:"Throughout history, the homes that people build tell us a great deal about their cultures. In ancient times, most homes were made from natural materials such as mud, stone, or wood. They were designed mainly to provide protection against harsh weather and wild animals. Over the centuries, homes grew more complex. In medieval Europe, wealthy families built large stone castles with many rooms, while poorer families lived in simple one-room cottages with a fire in the centre for cooking and warmth. The invention of steel and concrete in the 19th century changed building forever. Tall blocks of flats could now be constructed in city centres, allowing many more people to live in urban areas. New technologies such as central heating, indoor plumbing, and electric lighting also transformed life inside the home. Today, many new homes are built with the environment in mind. Solar panels, recycled materials, and intelligent heating systems are now common. Despite all these changes, the basic purpose of a home has never changed: it is a place where people seek shelter, comfort, and a sense of belonging.",
+ exercises:[
+  {q:"Ancient homes were built mainly to...",opts:["impress visitors with their size","protect people from harsh weather and animals","store food and farming tools"],correct:"protect people from harsh weather and animals"},
+  {q:"In medieval Europe, poor families lived in...",opts:["large stone castles","tall city apartment blocks","simple one-room cottages"],correct:"simple one-room cottages"},
+  {q:"What changed in the 19th century?",opts:["Mud and wood became the most popular building materials","Steel and concrete made it possible to build taller buildings","Smart technology was invented for homes"],correct:"Steel and concrete made it possible to build taller buildings"},
+  {q:"The word 'transformed' most likely means...",opts:["destroyed and rebuilt from scratch","slightly improved over time","changed greatly and significantly"],correct:"changed greatly and significantly"},
+  {q:"What is the main idea of this text?",opts:["Medieval homes were the most comfortable ever built","Homes have changed throughout history but their basic purpose has not","Modern homes are worse for the environment than ancient ones"],correct:"Homes have changed throughout history but their basic purpose has not"}
+ ]},
+{type:"mcq",title:"Cultural Identity: Assimilation or Diversity?",
+ passage:"Few questions divide opinion in multicultural societies more sharply than whether immigrants should adopt the customs of the country they move to, or whether they should be free to maintain their own cultural identity. Those who argue for cultural integration — often called the 'assimilation' position — believe that adopting the language, values, and social norms of the host country is essential for social cohesion. They argue that when communities remain entirely separate, it becomes difficult to build the shared understanding that holds a society together. Opponents of this view argue that demanding cultural assimilation is a form of cultural erasure. They point out that diversity is one of the greatest strengths of any society, bringing new ideas, artistic traditions, and ways of solving problems. A third perspective, gaining increasing support among researchers, proposes that the question itself is flawed. Rather than asking whether immigrants should assimilate or preserve their identity, this view suggests that healthy societies encourage genuine cultural exchange — a two-way process in which all members learn from each other. The evidence suggests that communities where genuine cultural exchange is practised tend to show higher levels of social trust and wellbeing.",
+ exercises:[
+  {q:"According to the text, why do some people support cultural integration?",opts:["They believe it creates more economic opportunities","They argue it is necessary for social cohesion","They think it makes communities more creative and diverse"],correct:"They argue it is necessary for social cohesion"},
+  {q:"What does the word 'cohesion' most likely mean?",opts:["economic strength and growth","unity and togetherness","a shared language"],correct:"unity and togetherness"},
+  {q:"What does the 'third perspective' suggest?",opts:["Immigrants should learn the host language as fast as possible","Governments should study more cases before making recommendations","Healthy societies should encourage genuine two-way cultural exchange"],correct:"Healthy societies should encourage genuine two-way cultural exchange"},
+  {q:"What does the evidence in the last paragraph suggest?",opts:["Forced assimilation leads to the happiest communities","Communities that practise cultural exchange show higher social trust","All cultural differences will eventually disappear on their own"],correct:"Communities that practise cultural exchange show higher social trust"},
+  {q:"What is the overall argument of this text?",opts:["Immigrants should always follow the norms of their new country","Cultural diversity always causes social tension in communities","A two-way cultural exchange may be more effective than forced assimilation"],correct:"A two-way cultural exchange may be more effective than forced assimilation"}
+ ]}
+];
+
+const G10ADV_VOCAB = [
+["identification","هوية / تعريف","You need to show identification before entering the exam hall."],
+["for short","اختصاراً","Her name is Samantha, but everyone calls her Sam for short."],
+["major","التخصص الجامعي","Her major at university is computer science."],
+["works out","يحسب / يستنتج","She works out the total cost before deciding which flat to rent."],
+["dormitory","سكن طلابي","Many first-year students choose to live in the dormitory on campus."],
+["fill out","يملأ (استمارة)","Please fill out the application form before the deadline."],
+["rush","يتسرع / يتعجل","Don't rush — read every question carefully before answering."],
+["pretty well","بشكل جيد إلى حد ما","He speaks English pretty well after only one year of study."],
+["appealing","جذاب / مغرٍ","The idea of studying abroad is very appealing to her."],
+["approach","أسلوب / نهج","Her approach to revision — using mind maps — is very effective."],
+["complex","معقد","The theory is complex, but the teacher explained it very clearly."],
+["concept","مفهوم","The concept of democracy is central to this political science course."],
+["conduct","يُجري / يُنفّذ","Scientists conducted an experiment to test their hypothesis."],
+["focus","يُركّز","Focus on the key vocabulary before the exam — not everything at once."],
+["memorize","يحفظ / يستظهر","She memorized all 30 exam vocabulary words in three days."],
+["observe","يلاحظ / يراقب","The students observed the experiment carefully and took notes."],
+["process","عملية / إجراء","Learning a new language is a long process that requires patience."],
+["symbol","رمز","The dove is a symbol of peace in many cultures around the world."],
+["accommodate","يستوعب / يُؤوي","The dormitory can accommodate up to 200 students at one time."],
+["budget","ميزانية","She created a monthly budget to manage her expenses more carefully."],
+["commute","التنقل اليومي","His daily commute from the suburb to the university takes 90 minutes."],
+["cramped","ضيّق / مكتظ","The studio flat was very cramped — barely enough room for a single bed."],
+["expenses","مصاريف / نفقات","Her monthly expenses include rent, food, transport, and phone bills."],
+["facilities","مرافق / تسهيلات","The building has excellent facilities including a gym and study rooms."],
+["pros and cons","الإيجابيات والسلبيات","She listed the pros and cons before deciding whether to move off campus."],
+["tenant","مستأجر","The tenant agreed to pay rent by the first of every month."],
+["furnished","مفروش","The furnished flat includes a bed, wardrobe, sofa, and dining table."],
+["leaking","متسرب / يتسرب","The plumber came to fix the leaking pipe in the bathroom."],
+["utilities","مرافق (كهرباء، ماء، إنترنت)","The monthly rent includes all utilities: electricity, water, and internet."],
+["intersection","تقاطع طرق","Turn left at the second intersection and the building is on the right."]
+].map(([w,ar,s])=>({w,ar,s}));
+
+const G10ADV_VOCAB_QUIZ = [
+{q:"Her daily _____ from the suburb to the university takes almost ninety minutes each way.",opts:["commute","budget","symbol"],correct:"commute"},
+{q:"The apartment was described as _____: only one person could stand up comfortably in it.",opts:["furnished","appealing","cramped"],correct:"cramped"},
+{q:"Before you move in, carefully _____ your monthly _____ to make sure you can afford both the rent and the bills.",opts:["observe / symbols","calculate / expenses","conduct / facilities"],correct:"calculate / expenses"},
+{q:"The professor said students must _____ the experiment before writing up their conclusions.",opts:["memorize","observe","fill out"],correct:"observe"},
+{q:"After carefully weighing the _____, she decided that a furnished flat near campus was the best option.",opts:["pros and cons","utilities","intersections"],correct:"pros and cons"},
+{q:"The _____ tenant reported the _____ tap to the building manager as soon as she noticed it.",opts:["new / leaking","previous / furnished","furnished / cramped"],correct:"new / leaking"},
+{q:"Her _____ at university was philosophy — she spent four years studying the great thinkers.",opts:["symbol","major","approach"],correct:"major"},
+{q:"The idea of studying in another country is very _____ to her — she has always wanted to experience life abroad.",opts:["complex","cramped","appealing"],correct:"appealing"},
+{q:"Students must show _____ before they can enter the examination room — a passport or student ID is required.",opts:["identification","facilities","budget"],correct:"identification"},
+{q:"The monthly _____ include electricity, water, and internet — they are all included in the rent price.",opts:["utilities","expenses","facilities"],correct:"utilities"}
+];
+
+const G10ADV_GRAMMAR = [
+{code:"G.2.4",title:"Adverbial Linkers",
+ explain:"Adverbial linkers connect ideas between sentences. The linker depends on the logical relationship between the two ideas.",
+ formula:"moreover/furthermore → addition | however/in contrast/nevertheless → contrast | therefore/as a result/consequently → result | for example/for instance → illustration",
+ examples:["She studied every night for two weeks. As a result, she passed with top marks.","She revised hard. However, she still found the exam very difficult."],
+ tip:"Ask: what's the relationship between the two sentences — addition, contrast, or result?",
+ warn:"'Therefore' shows a result — do NOT use it when the second idea contrasts with the first. Use 'however' for contrast.",
+ exercises:[
+  {q:"She studied hard every evening. _____, she passed the exam with excellent grades.",opts:["However","As a result,","In contrast,"],correct:"As a result,"},
+  {q:"Online learning is very flexible. _____, completion rates remain extremely low.",opts:["Moreover","As a result","However,"],correct:"However,"},
+  {q:"The flat is expensive. _____, it includes all utilities and is close to campus.",opts:["Therefore","Nevertheless,","Consequently,"],correct:"Nevertheless,"},
+  {q:"She works long hours. _____, she manages to attend all her evening classes.",opts:["Furthermore","Therefore","Nevertheless,"],correct:"Nevertheless,"},
+  {q:"Copenhagen invested heavily in cycling infrastructure. _____, more people now cycle than drive.",opts:["However","As a result,","In contrast,"],correct:"As a result,"}
+ ]},
+{code:"G.8.1",title:"Modal Verbs",
+ explain:"Modal verbs express different degrees of obligation, possibility, advice, and permission.",
+ formula:"must → strong obligation/near-certainty | must not → strong prohibition | should → advice | might/could → uncertain possibility | can → ability/permission",
+ examples:["You must submit your essay before the deadline.","You should revise your grammar notes tonight."],
+ tip:"'Must not' is a prohibition — much stronger than 'should not' (advice).",
+ warn:"'Might' = uncertain possibility. 'Must' = near-certainty. Choose based on how confident the speaker is.",
+ exercises:[
+  {q:"You _____ use your mobile phone during the examination — it is strictly prohibited.",opts:["should not","might not","must not"],correct:"must not"},
+  {q:"I am not sure, but she _____ still be in the library — she mentioned staying late.",opts:["must","might","should"],correct:"might"},
+  {q:"You _____ revise your vocabulary daily — it will really improve your performance.",opts:["might","should","must not"],correct:"should"},
+  {q:"Students _____ submit assignments before the deadline or they will not be accepted.",opts:["might","should","must"],correct:"must"},
+  {q:"This _____ be the right building — the sign says 'Qatr Al Nada School'.",opts:["might","must","should not"],correct:"must"}
+ ]},
+{code:"G.1.2",title:"Comparative Adjectives",
+ explain:"Short adjectives take -er+than. Long adjectives take more+adjective+than. Irregular: good→better, bad→worse, far→further.",
+ formula:"big→bigger | comfortable→more comfortable | getting + more and more + adj (growing trend)",
+ examples:["Online courses are far more flexible than traditional lectures.","Her second essay was much better than the first one."],
+ tip:"Count the syllables: one syllable = -er. Two or more = more + adjective.",
+ warn:"NEVER say 'more cheaper' or 'more better' — double comparatives are always wrong.",
+ exercises:[
+  {q:"Online courses are getting _____ popular every year.",opts:["more and most","more and more","the most"],correct:"more and more"},
+  {q:"The new dormitory is far _____ to the library than the old one.",opts:["more closer","closer","closest"],correct:"closer"},
+  {q:"She found her second attempt at the exam _____ than the first.",opts:["much more easy","much easier","much more easier"],correct:"much easier"},
+  {q:"City life is _____ than village life in many ways.",opts:["more complex","most complex","complexer"],correct:"more complex"},
+  {q:"The results were _____ than anyone had expected — all five students passed.",opts:["good","more good","better"],correct:"better"}
+ ]},
+{code:"G.5.2",title:"First Conditional",
+ explain:"Use the First Conditional for REAL and POSSIBLE situations — things that could actually happen.",
+ formula:"If + present simple → will + base verb. The if-clause ALWAYS uses present simple — never will.",
+ examples:["If you submit your essay on time, the teacher will give you detailed feedback."],
+ tip:"Both clauses can come first: 'I will pass the exam if I study tonight.'",
+ warn:"'If she will study...' is ALWAYS wrong. Use present simple after if.",
+ exercises:[
+  {q:"If you _____ your sources carefully, you will avoid any accusations of plagiarism.",opts:["acknowledged","will acknowledge","acknowledge"],correct:"acknowledge"},
+  {q:"She _____ off campus if the rent is lower than the dormitory.",opts:["will move","would move","moves"],correct:"will move"},
+  {q:"If he _____ harder, he will definitely improve his reading scores.",opts:["will practice","practices","practiced"],correct:"practices"},
+  {q:"The city _____ carbon-neutral by 2025 if it continues investing in renewable energy.",opts:["becomes","will become","would become"],correct:"will become"},
+  {q:"If you _____ the passage twice, you will understand the main argument more clearly.",opts:["will read","read","would read"],correct:"read"}
+ ]},
+{code:"G.19.2",title:"Verb Forms (Infinitive vs -ing)",
+ explain:"Some verbs take a to-infinitive, some take -ing, and some take a bare infinitive.",
+ formula:"to-infinitive: decide, want, hope, plan, expect | -ing: enjoy, avoid, keep, suggest, finish | bare infinitive: make/let + object + base verb",
+ examples:["She decided to revise her notes before the exam.","I enjoy listening to academic podcasts during my commute."],
+ tip:"Enjoy, avoid, and keep ALWAYS take -ing. Decide, want, and hope ALWAYS take to-infinitive.",
+ warn:"'Enjoy to + verb' is ALWAYS wrong. 'Make someone to do' is also wrong — use bare infinitive.",
+ exercises:[
+  {q:"I really enjoy _____ academic podcasts during my morning commute to the university.",opts:["to listen","listened","listening"],correct:"listening"},
+  {q:"She decided _____ a single room for more privacy this semester.",opts:["renting","rent","to rent"],correct:"to rent"},
+  {q:"My lecturer made me _____ the entire introduction of my essay.",opts:["to rewrite","rewriting","rewrite"],correct:"rewrite"},
+  {q:"Students who avoid _____ their assignments too late tend to produce much better work.",opts:["to leave","leave","leaving"],correct:"leaving"},
+  {q:"He managed _____ all his coursework before the deadline despite working part-time.",opts:["completing","to complete","complete"],correct:"to complete"}
+ ]},
+{code:"G.13.3",title:"Present Perfect Simple",
+ explain:"Use the present perfect for actions/situations connected to the present, even if they started in the past.",
+ formula:"have/has + past participle. 'Since' = a point in time. 'For' = a duration.",
+ examples:["She has lived in this city since 2019 and still lives here today.","I haven't finished the assignment yet."],
+ tip:"Time markers: since, for, already, yet, ever, never, recently, just.",
+ warn:"Do NOT use past simple with 'since' or 'yet'. NOT 'She lived here since 2019' → USE 'She HAS LIVED here since 2019.'",
+ exercises:[
+  {q:"She _____ in this city since 2019 and still lives here today.",opts:["lived","was living","has lived"],correct:"has lived"},
+  {q:"I _____ the assignment yet — I am still working on the conclusion.",opts:["haven't finished","didn't finish","don't finish"],correct:"haven't finished"},
+  {q:"This is the most interesting book I _____ this year.",opts:["read","have ever read","was reading"],correct:"have ever read"},
+  {q:"The cost of solar electricity _____ by more than 90 percent since 2010.",opts:["fell","was falling","has fallen"],correct:"has fallen"},
+  {q:"She _____ already _____ her draft three times — she is almost ready to submit it.",opts:["has / revised","did / revise","was / revising"],correct:"has / revised"}
+ ]},
+{code:"G.5.3",title:"Second Conditional",
+ explain:"Use the Second Conditional for IMAGINARY, UNLIKELY, or HYPOTHETICAL situations.",
+ formula:"If + past simple → would + base verb. Use 'were' (not 'was') for all subjects in formal English.",
+ examples:["If I had more free time, I would definitely learn a third language."],
+ tip:"'If I were you' is the standard form for advice, even though 'I' is singular.",
+ warn:"The result clause ALWAYS uses 'would' — never 'will'.",
+ exercises:[
+  {q:"If I _____ more time, I would definitely learn a third language.",opts:["have","had","will have"],correct:"had"},
+  {q:"She _____ off campus if the rent were lower than it currently is.",opts:["will move","moves","would move"],correct:"would move"},
+  {q:"If he _____ the subject more carefully, he would understand the argument.",opts:["studies","studied","will study"],correct:"studied"},
+  {q:"If I _____ you, I would speak to the landlord about the broken heating system.",opts:["am","was","were"],correct:"were"},
+  {q:"More students _____ to campus if public transport were cheaper and more reliable.",opts:["will commute","commute","would commute"],correct:"would commute"}
+ ]},
+{code:"G.17.4",title:"Indirect Questions",
+ explain:"Indirect questions are polite/embedded questions. They use NORMAL word order — not the inverted order of direct questions.",
+ formula:"question word + subject + verb (no inversion). For yes/no questions use whether/if (not 'that').",
+ examples:["Could you tell me where the library is?","I wonder whether she studies here."],
+ tip:"Test: does it sound like a statement? If yes, the word order is correct.",
+ warn:"NEVER write 'I wonder where IS the library' — inversion only happens in direct questions.",
+ exercises:[
+  {q:"Could you tell me _____ the library on this campus, please?",opts:["where is","where the library is","where does the library go"],correct:"where the library is"},
+  {q:"I was wondering _____ I could use online sources in my final essay.",opts:["that","whether","what"],correct:"whether"},
+  {q:"Do you know _____ the university library is open on Friday evenings?",opts:["if","that does","when is"],correct:"if"},
+  {q:"Can you tell me _____ the dormitory building is from the main lecture hall?",opts:["how far is","how far","that"],correct:"how far"},
+  {q:"She asked the receptionist _____ she needed to fill in a form to register.",opts:["that does","whether","what does"],correct:"whether"}
+ ]},
+{code:"Mixed Review",title:"Narrative Gap-Fill — Avoiding Plagiarism",
+ explain:"Read the full text, then choose the correct word/phrase for each gap.",
+ formula:"Academic integrity is a concept every university student (1)_____ about long before arriving on campus. If students (2)_____ their sources carefully, they will avoid plagiarism. Many first-years wonder (3)_____ they are allowed to use online sources. Paraphrasing is often (4)_____ than quoting. Students who enjoy (5)_____ in academic debates develop critical thinking faster.",
+ examples:[],tip:"Read before AND after each gap.",warn:"",
+ exercises:[
+  {q:"Gap (1):",opts:["learns","is learned","should learn"],correct:"should learn"},
+  {q:"Gap (2):",opts:["acknowledged","will acknowledge","acknowledge"],correct:"acknowledge"},
+  {q:"Gap (3):",opts:["that","whether","what does"],correct:"whether"},
+  {q:"Gap (4):",opts:["more valuable","valuable","most valuable"],correct:"more valuable"},
+  {q:"Gap (5):",opts:["to participate","participated","participating"],correct:"participating"}
+ ]}
+];
+
+const G10ADV_READING = [
+{type:"tfng",title:"Planet Under Stress",
+ passage:"Scientists have confirmed that global average temperatures have now risen by approximately 1.2 degrees Celsius above pre-industrial levels. The primary cause is the rapid increase in greenhouse gas emissions from industrial activity, transport, and agriculture. The consequences are clearly visible. Arctic sea ice is melting faster than at any point in recorded history, contributing to rising sea levels that threaten millions of people in coastal communities. Extreme weather events — floods, droughts, and wildfires — are occurring more frequently. Biodiversity is also under severe pressure. Scientists estimate that around one million species face extinction, primarily as a result of habitat destruction caused by expanding agriculture and deforestation. Tropical rainforests, which support more than half of all known species on Earth, are being cleared at an accelerating rate. Despite these alarming developments, there is also reason for cautious optimism. Renewable energy capacity grew at record pace in 2023, and the cost of generating solar electricity has fallen by more than ninety percent since 2010. A growing number of governments have committed to reaching net-zero carbon emissions before 2050.",
+ exercises:[
+  {q:"Global temperatures have risen by approximately 1.2 degrees above pre-industrial levels.",opts:TFNG,correct:"TRUE"},
+  {q:"The United Nations first warned about rising temperatures in 1990.",opts:TFNG,correct:"NOT GIVEN"},
+  {q:"Arctic sea ice is melting faster than at any previous point in recorded history.",opts:TFNG,correct:"TRUE"},
+  {q:"Tropical rainforests support more than half of all known species on Earth.",opts:TFNG,correct:"TRUE"},
+  {q:"Most world governments have already achieved their net-zero emissions targets.",opts:TFNG,correct:"NOT GIVEN"},
+  {q:"Tropical rainforests are mainly found in Africa.",opts:TFNG,correct:"NOT GIVEN"}
+ ]},
+{type:"mcq",title:"The Role of Online Education",
+ passage:"Online education has grown from a small experiment into a mainstream phenomenon in less than two decades. Today, millions of learners worldwide access courses from universities they could never physically attend. Supporters argue this has democratized access to knowledge for people in remote areas, working adults, and those who cannot afford traditional fees. The flexibility of online learning is frequently cited as its greatest advantage. Students can study at their own pace, revisit lectures, and balance education with family responsibilities. However, critics point to a serious problem: completion rates for online courses remain significantly lower than for traditional programs — often below fifteen percent. Many students struggle to maintain motivation when there is no fixed timetable. Most education researchers now support a hybrid model — combining the flexibility of online tools with the irreplaceable human connection of in-person teaching.",
+ exercises:[
+  {q:"What does the writer mean by saying online education has 'democratized' access to knowledge?",opts:["It has reduced the quality of university education","It has made quality education available to more people who previously could not access it","The government has taken control of all online platforms"],correct:"It has made quality education available to more people who previously could not access it"},
+  {q:"What is described as online learning's greatest advantage?",opts:["Its lower cost compared to traditional education","The range of subjects available online","The flexibility to study at your own pace"],correct:"The flexibility to study at your own pace"},
+  {q:"What does research show about online course completion rates?",opts:["They are higher than for traditional programs","They are significantly lower — often below fifteen percent","They have improved steadily over the past five years"],correct:"They are significantly lower — often below fifteen percent"},
+  {q:"The writer's overall tone in this text is best described as...",opts:["Strongly enthusiastic — online learning will replace traditional education","Balanced — acknowledging both benefits and significant limitations","Strongly critical — online education has no real value"],correct:"Balanced — acknowledging both benefits and significant limitations"},
+  {q:"What is the main message of this text?",opts:["Online education has already replaced traditional universities","Online learning has clear benefits but real limitations — hybrid models may be the best solution","Governments must invest more in online platforms immediately"],correct:"Online learning has clear benefits but real limitations — hybrid models may be the best solution"}
+ ]},
+{type:"mcq",title:"A City That's Doing Something Right",
+ passage:"While many cities around the world struggle to reconcile economic growth with environmental responsibility, Copenhagen has established itself as a genuine model of sustainable urban development. The Danish capital has set one of the most ambitious climate targets of any city: to become fully carbon-neutral by 2025. To work towards this goal, the city has invested billions in cycling infrastructure. Today, more Copenhagen residents commute by bicycle than by private car — a fact that would have seemed almost impossible to imagine just twenty years ago. The city has also transformed its approach to energy. Approximately thirty percent of Denmark's electricity now comes from wind turbines. The district heating system delivers warmth through underground pipes running largely on renewable and waste-derived energy. Critics argue that Copenhagen's success is partly explained by Denmark's relatively small population and high average income. Whether this model can realistically be replicated in larger, more complex cities remains an open question.",
+ exercises:[
+  {q:"What does the writer call 'extraordinary'?",opts:["The amount of electricity from wind turbines","The fact that more residents cycle than drive","The underground district heating system"],correct:"The fact that more residents cycle than drive"},
+  {q:"The word 'reconcile' most closely means...",opts:["prioritize one thing over another","find a balance between two opposing things","abandon a previous commitment"],correct:"find a balance between two opposing things"},
+  {q:"What criticism do some people make of Copenhagen's model?",opts:["The cycling infrastructure is too dangerous for older residents","Denmark's wealth and small size make the model hard to copy elsewhere","Wind turbines produce too little electricity for a modern city"],correct:"Denmark's wealth and small size make the model hard to copy elsewhere"},
+  {q:"The writer's attitude towards Copenhagen's achievements is best described as...",opts:["Skeptical — the city's claims are exaggerated","Admiring but realistic about potential limitations","Unconditionally enthusiastic with no reservations"],correct:"Admiring but realistic about potential limitations"},
+  {q:"What might the writer MOST LIKELY discuss NEXT?",opts:["The history of cycling culture in northern Europe","Challenges of replicating Copenhagen's model in larger, less wealthy cities","Denmark's economy since the year 2000"],correct:"Challenges of replicating Copenhagen's model in larger, less wealthy cities"},
+  {q:"What is the main argument of this text?",opts:["Copenhagen is unique and its model will never work elsewhere","All cities should immediately ban private cars","Copenhagen shows that sustainable development is achievable — but scaling the model remains an open question"],correct:"Copenhagen shows that sustainable development is achievable — but scaling the model remains an open question"}
+ ]}
+];
+
+const GRADES = {
+  g9adv:{label:"Grade 9 ADV",level:"Stage 6 · B1.2",vocab:G910_VOCAB,vocabQuiz:G910_VOCAB_QUIZ,grammar:G910_GRAMMAR,reading:G910_READING},
+  g10gen:{label:"Grade 10 GEN",level:"Stage 6 · B1.2",vocab:G910_VOCAB,vocabQuiz:G910_VOCAB_QUIZ,grammar:G910_GRAMMAR,reading:G910_READING},
+  g10adv:{label:"Grade 10 ADV",level:"Stage 7 · B1.2–B2.1",vocab:G10ADV_VOCAB,vocabQuiz:G10ADV_VOCAB_QUIZ,grammar:G10ADV_GRAMMAR,reading:G10ADV_READING}
+};
+
+/* ===================== STORAGE HELPERS ===================== */
+const DEFAULT_CERT = {teacherName:"Mrs. Mona Mohamed",schoolName:"Qatr Al Nada Secondary School for Girls",principalName:"Mrs. Ashwaq Almansouri",title:"Certificate of Achievement",message:"For outstanding effort and progress in End of Term 3 English revision."};
+async function sGet(key, shared){ try{ const r = await window.storage.get(key, !!shared); return r ? JSON.parse(r.value) : null; }catch(e){ return null; } }
+async function sSet(key, val, shared){ try{ await window.storage.set(key, JSON.stringify(val), !!shared); }catch(e){} }
+
+async function loadCustomVocab(grade){ return (await sGet('customVocab:'+grade, true)) || []; }
+async function loadCustomVocabQuiz(grade){ return (await sGet('customVocabQuiz:'+grade, true)) || []; }
+async function loadCustomGrammar(grade){ return (await sGet('customGrammar:'+grade, true)) || []; }
+async function loadCustomReading(grade){ return (await sGet('customReading:'+grade, true)) || []; }
+async function loadCertSettings(){ return (await sGet('certSettings', true)) || DEFAULT_CERT; }
+async function loadReports(){ return (await sGet('reports', true)) || []; }
+async function loadSheetWebhook(){ return (await sGet('sheetWebhookUrl', true)) || ''; }
+async function pushReport(r){
+  const list = await loadReports(); list.push(r); await sSet('reports', list, true);
+  const url = await loadSheetWebhook();
+  if(url){
+    try{
+      await fetch(url, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(r)
+      });
+    }catch(e){ /* network issue — report still saved above, just not forwarded */ }
+  }
+}
+
+let mergedCache = {};
+async function getMerged(gradeKey){
+  if(mergedCache[gradeKey]) return mergedCache[gradeKey];
+  const base = GRADES[gradeKey];
+  const [cv, cvq, cg, cr] = await Promise.all([
+    loadCustomVocab(gradeKey), loadCustomVocabQuiz(gradeKey), loadCustomGrammar(gradeKey), loadCustomReading(gradeKey)
+  ]);
+  const merged = {
+    label: base.label, level: base.level,
+    vocab: base.vocab.concat(cv),
+    vocabQuiz: base.vocabQuiz.concat(cvq),
+    grammar: cg.length ? base.grammar.concat([{code:'Teacher Added',title:'Teacher-Added Practice',explain:'Extra questions added by your teacher.',formula:'',examples:[],tip:'',warn:'',exercises:cg}]) : base.grammar,
+    reading: base.reading.concat(cr)
+  };
+  mergedCache[gradeKey] = merged;
+  return merged;
+}
+function invalidateCache(gradeKey){ delete mergedCache[gradeKey]; }
+
+/* ===================== STUDENT IDENTITY & REPORTS ===================== */
+let studentName = '';
+async function ensureStudentName(){
+  if(studentName) return studentName;
+  const saved = await sGet('studentName', false);
+  if(saved){ studentName = saved; return studentName; }
+  const entered = prompt("Enter your name (this will appear on your reports and certificate):");
+  studentName = (entered||'').trim() || 'Student';
+  await sSet('studentName', studentName, false);
+  return studentName;
+}
+
+/* ===================== MODE ===================== */
+let appMode = 'student';
+function setMode(m){
+  appMode = m;
+  document.getElementById('btnStudentMode').classList.toggle('active', m==='student');
+  document.getElementById('btnTeacherMode').classList.toggle('active', m==='teacher');
+  const gb = document.getElementById('gradebar'), sb = document.getElementById('sectionbar');
+  if(m==='student'){ gb.classList.remove('hidden'); sb.classList.remove('hidden'); renderNav(); renderSection(); }
+  else { gb.classList.add('hidden'); sb.classList.add('hidden'); renderTeacherPanel(); }
+}
+
+
+let curGrade = 'g9adv', curSection = 'vocab';
+
+function renderNav(){
+  const gb = document.getElementById('gradebar');
+  gb.innerHTML = Object.entries(GRADES).map(([k,g])=>
+    `<button class="${k===curGrade?'active':''}" onclick="goGrade('${k}')">${g.label}</button>`).join('');
+  const sb = document.getElementById('sectionbar');
+  const secs = [['vocab','📖 Vocabulary'],['grammar','✏️ Grammar'],['reading','📰 Reading']];
+  sb.innerHTML = secs.map(([k,l])=>`<button class="${k===curSection?'active':''}" onclick="goSection('${k}')">${l}</button>`).join('');
+}
+function goGrade(g){ curGrade=g; renderNav(); renderSection(); }
+function goSection(s){ curSection=s; renderNav(); renderSection(); }
+async function renderSection(){
+  const data = await getMerged(curGrade);
+  if(curSection==='vocab') renderVocabList(data);
+  else if(curSection==='grammar') renderGrammarList(data);
+  else renderReadingList(data);
+}
+
+/* ===================== SPEECH ===================== */
+function speak(text){
+  try{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.92;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ===================== VOCABULARY (flashcards) ===================== */
+let vIdx = 0, vShowHint = false, curMerged = null;
+function renderVocabList(data){
+  curMerged = data;
+  vIdx = 0; vShowHint = false;
+  renderFlashcard(data);
+}
+function renderFlashcard(data){
+  const list = data.vocab;
+  const item = list[vIdx];
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <h2 class="section">📖 Vocabulary — ${data.label}</h2>
+    <div class="card flashcard">
+      <div class="counter">Word ${vIdx+1} of ${list.length}</div>
+      <div class="word">${item.w}</div>
+      <div class="row" style="justify-content:center;margin-top:10px;">
+        <button class="btn sm gold" onclick="speak('${item.w.replace(/'/g,"\\'")}')">🔊 Hear word</button>
+        <button class="btn sm ghost" onclick="speak('${item.s.replace(/'/g,"\\'")}')">🔊 Hear sentence</button>
+      </div>
+      <div class="sentence">"${item.s}"</div>
+      <div class="row" style="justify-content:center;">
+        <button class="btn sm" onclick="toggleHint()">🇦🇪 ${vShowHint?'Hide':'Show'} Arabic hint</button>
+      </div>
+      <div class="ar">${vShowHint ? item.ar : ''}</div>
+      <div class="navrow">
+        <button class="btn ghost" ${vIdx===0?'disabled':''} onclick="vNav(-1)">← Previous</button>
+        <button class="btn ghost" ${vIdx===list.length-1?'disabled':''} onclick="vNav(1)">Next →</button>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn gold" onclick="startVocabQuiz()">📝 Start Vocabulary Practice Quiz</button>
+    </div>
+  `;
+}
+function toggleHint(){ vShowHint = !vShowHint; renderFlashcard(curMerged); }
+function vNav(d){ vIdx += d; vShowHint = false; renderFlashcard(curMerged); }
+async function startVocabQuiz(){
+  await ensureStudentName();
+  runQuiz(curMerged.vocabQuiz, "Vocabulary Practice Quiz", null, ()=>renderVocabList(curMerged), 'Vocabulary');
+}
+
+/* ===================== GRAMMAR ===================== */
+function renderGrammarList(data){
+  curMerged = data;
+  const main = document.getElementById('main');
+  main.innerHTML = `<h2 class="section">✏️ Grammar — ${data.label}</h2>` +
+    data.grammar.map((gp,i)=>`
+    <details class="card gp">
+      <summary>${gp.code} — ${gp.title}</summary>
+      <p>${gp.explain}</p>
+      ${gp.formula?`<div class="formula"><strong>${gp.formula}</strong></div>`:''}
+      ${gp.examples.map(e=>`<div class="ex">• ${e}</div>`).join('')}
+      ${gp.tip?`<div class="tip">✅ ${gp.tip}</div>`:''}
+      ${gp.warn?`<div class="warn">⚠️ ${gp.warn}</div>`:''}
+      <div style="margin-top:10px;"><button class="btn gold" onclick="startGrammarQuiz(${i})">📝 Practice This Point</button></div>
+    </details>`).join('');
+}
+async function startGrammarQuiz(i){
+  await ensureStudentName();
+  const gp = curMerged.grammar[i];
+  runQuiz(gp.exercises, gp.title, null, ()=>renderGrammarList(curMerged), 'Grammar');
+}
+
+/* ===================== READING ===================== */
+function renderReadingList(data){
+  curMerged = data;
+  const main = document.getElementById('main');
+  main.innerHTML = `<h2 class="section">📰 Reading — ${data.label}</h2>` +
+    data.reading.map((r,i)=>`
+    <div class="card">
+      <span class="pill">${r.type==='tfng'?'True / False / Not Given':'Multiple Choice'}</span>
+      <h3 style="color:var(--navy);margin:8px 0 4px;">${r.title}</h3>
+      <p class="muted" style="font-size:.82rem;color:#666;">${r.exercises.length} questions</p>
+      <button class="btn gold" onclick="openPassage(${i})">Read & Practice →</button>
+    </div>`).join('');
+}
+async function openPassage(i){
+  await ensureStudentName();
+  const r = curMerged.reading[i];
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <h2 class="section">${r.title}</h2>
+    <div class="passage">${r.passage}</div>
+    <div id="quizArea"></div>
+  `;
+  runQuiz(r.exercises, r.title, document.getElementById('quizArea'), ()=>renderReadingList(curMerged), 'Reading');
+}
+
+/* ===================== GENERIC QUIZ ENGINE ===================== */
+function runQuiz(questions, title, container, onFinish, sectionLabel){
+  let idx = 0, score = 0;
+  const target = container || document.getElementById('main');
+  function showQ(){
+    if(idx >= questions.length){ showResult(); return; }
+    const q = questions[idx];
+    const opts = q.opts.map(o=>`<button class="opt" onclick="quizSelect(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('');
+    target.innerHTML = (container?'':`<h2 class="section">${title}</h2>`) + `
+      <div class="card">
+        <div class="qhead">Question ${idx+1} of ${questions.length}</div>
+        <div class="qtext">${q.q}</div>
+        <div id="optsWrap">${opts}</div>
+        <div id="fbWrap"></div>
+      </div>`;
+    window._curQ = q;
+  }
+  window.quizSelect = function(btn, chosen){
+    const q = window._curQ;
+    const buttons = document.querySelectorAll('#optsWrap .opt');
+    buttons.forEach(b=>{ b.disabled=true; if(b.textContent.trim()===q.correct) b.classList.add('correctOpt'); });
+    const correct = chosen === q.correct;
+    if(correct) score++; else btn.classList.add('wrongOpt');
+    document.getElementById('fbWrap').innerHTML = `
+      <div class="fb" style="color:${correct?'#2e7d32':'#c62828'};">${correct?'✅ Correct!':'❌ Not quite — correct answer highlighted above.'}</div>
+      <button class="btn" style="margin-top:8px;" onclick="quizNext()">${idx+1<questions.length?'Next →':'See Results →'}</button>`;
+  };
+  window.quizNext = function(){ idx++; showQ(); };
+  async function showResult(){
+    const pct = Math.round((score/questions.length)*100);
+    await pushReport({student:studentName, grade:curMerged.label, section:sectionLabel||'', topic:title, score, total:questions.length, pct, date:new Date().toISOString()});
+    window._quizOnFinish = onFinish;
+    window._lastResult = {score, total:questions.length, pct, title};
+    target.innerHTML = (container?'':`<h2 class="section">${title} — Results</h2>`) + `
+      <div class="score-banner">
+        <div class="big">${score} / ${questions.length}</div>
+        <div>${pct}%</div>
+      </div>
+      <div style="text-align:center;margin-top:14px;">
+        <button class="btn gold" onclick="window._quizOnFinish()">← Back</button>
+        <button class="btn ghost" onclick="showCertificate()">🖨️ Print Certificate</button>
+      </div>`;
+  }
+  showQ();
+}
+
+async function showCertificate(){
+  const cs = await loadCertSettings();
+  const res = window._lastResult || {score:0,total:0,pct:0,title:''};
+  document.getElementById('main').innerHTML = `
+    <div class="cert">
+      <h2>${cs.title}</h2>
+      <p>This certifies that</p>
+      <div class="name">${studentName}</div>
+      <p>has completed <strong>${curMerged?curMerged.label:''}</strong> revision — ${res.title}<br>Score: ${res.score}/${res.total} (${res.pct}%)</p>
+      <p style="font-size:.85rem;">${cs.message}</p>
+      <div class="sig">
+        <div>${cs.teacherName}<br><span style="font-size:.72rem;">English Teacher</span></div>
+        <div>${cs.principalName}<br><span style="font-size:.72rem;">School Principal</span></div>
+      </div>
+      <p style="font-size:.68rem;margin-top:16px;">${cs.schoolName} · ${new Date().toLocaleDateString()}</p>
+    </div>
+    <div class="no-print" style="text-align:center;margin-top:14px;">
+      <button class="btn gold" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      <button class="btn ghost" onclick="setMode('student')">← Back</button>
+    </div>`;
+}
+
+/* ===================== TEACHER PANEL ===================== */
+async function renderTeacherPanel(){
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="card"><p>Loading teacher tools…</p></div>`;
+  const cs = await loadCertSettings();
+  const reports = await loadReports();
+  const gradeOpts = Object.entries(GRADES).map(([k,g])=>`<option value="${k}">${g.label}</option>`).join('');
+  const passages = {};
+  for(const gk of Object.keys(GRADES)){ passages[gk] = (GRADES[gk].reading.concat(await loadCustomReading(gk))); }
+
+  main.innerHTML = `
+    <div class="card">
+      <h2 class="section">➕ Add a Vocabulary Word</h2>
+      <p style="font-size:.8rem;color:#666;">Adds a flashcard students will see in the Vocabulary tab for the chosen grade — visible to anyone using this page.</p>
+      <label>Grade</label><select id="vwGrade">${gradeOpts}</select>
+      <label>English Word / Phrase</label><input type="text" id="vwWord">
+      <label>Arabic Meaning</label><input type="text" id="vwAr" dir="rtl">
+      <label>Example Sentence</label><input type="text" id="vwSentence">
+      <div style="margin-top:8px;"><button class="btn gold" onclick="addVocabWord()">Add Word</button></div>
+      <p id="vwMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">➕ Add a Vocabulary Quiz Question</h2>
+      <label>Grade</label><select id="vqGrade">${gradeOpts}</select>
+      <label>Question (use _____ for the gap)</label><textarea id="vqQ"></textarea>
+      <label>Options (one per line, 2–4)</label><textarea id="vqOpts"></textarea>
+      <label>Correct Answer (must match an option exactly)</label><input type="text" id="vqCorrect">
+      <div style="margin-top:8px;"><button class="btn gold" onclick="addVocabQuizQ()">Add Question</button></div>
+      <p id="vqMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">➕ Add a Grammar Practice Question</h2>
+      <p style="font-size:.8rem;color:#666;">Added to a "Teacher-Added Practice" point at the bottom of the Grammar tab for that grade.</p>
+      <label>Grade</label><select id="gqGrade">${gradeOpts}</select>
+      <label>Question</label><textarea id="gqQ"></textarea>
+      <label>Options (one per line)</label><textarea id="gqOpts"></textarea>
+      <label>Correct Answer</label><input type="text" id="gqCorrect">
+      <div style="margin-top:8px;"><button class="btn gold" onclick="addGrammarQ()">Add Question</button></div>
+      <p id="gqMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">➕ Add a Reading Passage</h2>
+      <label>Grade</label><select id="rpGrade">${gradeOpts}</select>
+      <label>Title</label><input type="text" id="rpTitle">
+      <label>Question Type</label>
+      <select id="rpType"><option value="mcq">Multiple Choice</option><option value="tfng">True / False / Not Given</option></select>
+      <label>Passage Text</label><textarea id="rpText" style="min-height:90px;"></textarea>
+      <div style="margin-top:8px;"><button class="btn gold" onclick="addPassage()">Create Passage</button></div>
+      <p id="rpMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">➕ Add a Question to an Existing Passage</h2>
+      <label>Grade</label><select id="rqGrade" onchange="refreshPassageOptions()">${gradeOpts}</select>
+      <label>Passage</label><select id="rqPassage"></select>
+      <label>Question</label><textarea id="rqQ"></textarea>
+      <label id="rqOptsLabel">Options (one per line — leave blank for True/False/Not Given passages)</label><textarea id="rqOpts"></textarea>
+      <label>Correct Answer</label><input type="text" id="rqCorrect" placeholder="For TFNG passages, type TRUE, FALSE, or NOT GIVEN">
+      <div style="margin-top:8px;"><button class="btn gold" onclick="addPassageQ()">Add Question</button></div>
+      <p id="rqMsg" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">🎓 Certificate Settings</h2>
+      <label>Teacher Name</label><input type="text" id="csTeacher" value="${cs.teacherName}">
+      <label>School Name</label><input type="text" id="csSchool" value="${cs.schoolName}">
+      <label>Principal / Co-signatory</label><input type="text" id="csPrincipal" value="${cs.principalName}">
+      <label>Certificate Title</label><input type="text" id="csTitle" value="${cs.title}">
+      <label>Message</label><input type="text" id="csMsg" value="${cs.message}">
+      <div style="margin-top:8px;"><button class="btn" onclick="saveCertFromForm()">Save Certificate Settings</button></div>
+      <p id="csOut" class="msg"></p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">🔗 Connect Your Google Sheet</h2>
+      <p style="font-size:.82rem;color:#666;">Paste your deployed Apps Script Web App URL here. Every student report will then be sent to your own Google Sheet automatically, in addition to being shown below.</p>
+      <label>Apps Script Web App URL</label>
+      <input type="text" id="sheetUrl" value="${await loadSheetWebhook()}" placeholder="https://script.google.com/macros/s/.../exec">
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" onclick="saveSheetUrl()">Save URL</button>
+        <button class="btn ghost" onclick="testSheetUrl()">Test Connection</button>
+      </div>
+      <p id="sheetMsg" class="msg"></p>
+      <p style="font-size:.75rem;color:#888;margin-top:8px;">Need the script code? Open <code>Code.gs</code> from this package, paste it into <a href="https://script.google.com/" target="_blank">script.google.com</a>, deploy as a Web App (Execute as: Me · Access: Anyone), and paste the resulting URL above.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="section">📊 Student Reports (${reports.length})</h2>
+      ${reports.length ? `<table><tr><th>Student</th><th>Grade</th><th>Section</th><th>Topic</th><th>Score</th><th>Date</th></tr>
+        ${reports.slice().reverse().map(r=>`<tr><td>${r.student}</td><td>${r.grade}</td><td>${r.section}</td><td>${r.topic}</td><td>${r.score}/${r.total} (${r.pct}%)</td><td>${new Date(r.date).toLocaleDateString()}</td></tr>`).join('')}
+      </table><div style="margin-top:8px;"><button class="btn ghost" onclick="downloadCSV()">📥 Download CSV</button></div>`
+      : `<p style="font-size:.85rem;color:#666;">No reports yet — once students complete a quiz, results appear here.</p>`}
+    </div>
+
+    <div class="card no-print">
+      <h2 class="section">🔗 Sharing With Your Class</h2>
+      <p style="font-size:.85rem;">Once this page is hosted (e.g. on GitHub Pages), give your students that one link — that's all they need. Anything you add above (words, questions, passages, certificate details) is part of the page itself, so every student who opens the link sees it. Reports below are only visible here in Teacher Tools, and also land in your Google Sheet if you've connected one.</p>
+    </div>
+  `;
+  await refreshPassageOptions();
+}
+
+function refreshPassageOptions(){
+  return (async ()=>{
+    const grade = document.getElementById('rqGrade').value;
+    const custom = await loadCustomReading(grade);
+    const all = GRADES[grade].reading.concat(custom);
+    document.getElementById('rqPassage').innerHTML = all.map((p,i)=>`<option value="${i}" data-type="${p.type}">${p.title}</option>`).join('');
+  })();
+}
+
+async function addVocabWord(){
+  const grade = document.getElementById('vwGrade').value;
+  const w = document.getElementById('vwWord').value.trim();
+  const ar = document.getElementById('vwAr').value.trim();
+  const s = document.getElementById('vwSentence').value.trim();
+  const msg = document.getElementById('vwMsg');
+  if(!w || !s){ msg.style.color='#c62828'; msg.textContent='Please fill in at least the word and an example sentence.'; return; }
+  const list = await loadCustomVocab(grade); list.push({w,ar,s}); await sSet('customVocab:'+grade, list, true);
+  invalidateCache(grade);
+  msg.style.color='#2e7d32'; msg.textContent='✅ Word added to '+GRADES[grade].label+'.';
+  document.getElementById('vwWord').value=''; document.getElementById('vwAr').value=''; document.getElementById('vwSentence').value='';
+}
+
+async function addVocabQuizQ(){
+  const grade = document.getElementById('vqGrade').value;
+  const q = document.getElementById('vqQ').value.trim();
+  const opts = document.getElementById('vqOpts').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const correct = document.getElementById('vqCorrect').value.trim();
+  const msg = document.getElementById('vqMsg');
+  if(!q || opts.length<2 || !opts.includes(correct)){ msg.style.color='#c62828'; msg.textContent='Please add a question, at least 2 options, and a correct answer that matches one option exactly.'; return; }
+  const list = await loadCustomVocabQuiz(grade); list.push({q,opts,correct}); await sSet('customVocabQuiz:'+grade, list, true);
+  invalidateCache(grade);
+  msg.style.color='#2e7d32'; msg.textContent='✅ Quiz question added to '+GRADES[grade].label+'.';
+  document.getElementById('vqQ').value=''; document.getElementById('vqOpts').value=''; document.getElementById('vqCorrect').value='';
+}
+
+async function addGrammarQ(){
+  const grade = document.getElementById('gqGrade').value;
+  const q = document.getElementById('gqQ').value.trim();
+  const opts = document.getElementById('gqOpts').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const correct = document.getElementById('gqCorrect').value.trim();
+  const msg = document.getElementById('gqMsg');
+  if(!q || opts.length<2 || !opts.includes(correct)){ msg.style.color='#c62828'; msg.textContent='Please add a question, at least 2 options, and a correct answer that matches one option exactly.'; return; }
+  const list = await loadCustomGrammar(grade); list.push({q,opts,correct}); await sSet('customGrammar:'+grade, list, true);
+  invalidateCache(grade);
+  msg.style.color='#2e7d32'; msg.textContent='✅ Added to Teacher-Added Practice for '+GRADES[grade].label+'.';
+  document.getElementById('gqQ').value=''; document.getElementById('gqOpts').value=''; document.getElementById('gqCorrect').value='';
+}
+
+async function addPassage(){
+  const grade = document.getElementById('rpGrade').value;
+  const title = document.getElementById('rpTitle').value.trim();
+  const type = document.getElementById('rpType').value;
+  const passage = document.getElementById('rpText').value.trim();
+  const msg = document.getElementById('rpMsg');
+  if(!title || !passage){ msg.style.color='#c62828'; msg.textContent='Please add a title and the passage text.'; return; }
+  const list = await loadCustomReading(grade); list.push({type,title,passage,exercises:[]}); await sSet('customReading:'+grade, list, true);
+  invalidateCache(grade);
+  msg.style.color='#2e7d32'; msg.textContent='✅ Passage created. Now add questions to it below.';
+  document.getElementById('rpTitle').value=''; document.getElementById('rpText').value='';
+  document.getElementById('rqGrade').value = grade;
+  await refreshPassageOptions();
+}
+
+async function addPassageQ(){
+  const grade = document.getElementById('rqGrade').value;
+  const pIdx = parseInt(document.getElementById('rqPassage').value, 10);
+  const builtinCount = GRADES[grade].reading.length;
+  const q = document.getElementById('rqQ').value.trim();
+  const correct = document.getElementById('rqCorrect').value.trim();
+  const optsRaw = document.getElementById('rqOpts').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const msg = document.getElementById('rqMsg');
+  if(!q || !correct){ msg.style.color='#c62828'; msg.textContent='Please add a question and correct answer.'; return; }
+  if(pIdx < builtinCount){ msg.style.color='#c62828'; msg.textContent='You can only add questions to passages you created (the ones added via "Add a Reading Passage").'; return; }
+  const customIdx = pIdx - builtinCount;
+  const list = await loadCustomReading(grade);
+  const passage = list[customIdx];
+  const opts = passage.type === 'tfng' ? ["TRUE","FALSE","NOT GIVEN"] : optsRaw;
+  if(passage.type !== 'tfng' && (opts.length < 2 || !opts.includes(correct))){ msg.style.color='#c62828'; msg.textContent='For MCQ, add at least 2 options and a correct answer matching one exactly.'; return; }
+  passage.exercises.push({q,opts,correct});
+  await sSet('customReading:'+grade, list, true);
+  invalidateCache(grade);
+  msg.style.color='#2e7d32'; msg.textContent='✅ Question added to "'+passage.title+'".';
+  document.getElementById('rqQ').value=''; document.getElementById('rqOpts').value=''; document.getElementById('rqCorrect').value='';
+}
+
+async function saveSheetUrl(){
+  const url = document.getElementById('sheetUrl').value.trim();
+  await sSet('sheetWebhookUrl', url, true);
+  const msg = document.getElementById('sheetMsg');
+  msg.style.color='#2e7d32'; msg.textContent = url ? '✅ Saved. Reports will now also be sent to your Google Sheet.' : '✅ Cleared — reports will only be stored in this page.';
+}
+async function testSheetUrl(){
+  const url = document.getElementById('sheetUrl').value.trim();
+  const msg = document.getElementById('sheetMsg');
+  if(!url){ msg.style.color='#c62828'; msg.textContent = 'Paste your Apps Script URL first.'; return; }
+  msg.style.color='#333'; msg.textContent = 'Sending a test row…';
+  try{
+    await fetch(url, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({student:'TEST STUDENT', grade:'Test', section:'Connection Test', topic:'Test row', score:1, total:1, pct:100, date:new Date().toISOString()})});
+    msg.style.color='#2e7d32'; msg.textContent = '✅ Test row sent. Check your Google Sheet — a "TEST STUDENT" row should appear within a few seconds.';
+  }catch(e){
+    msg.style.color='#c62828'; msg.textContent = '❌ Could not reach that URL. Double-check it was deployed as a Web App with Access: Anyone.';
+  }
+}
+
+async function saveCertFromForm(){
+  const cs = {
+    teacherName: document.getElementById('csTeacher').value,
+    schoolName: document.getElementById('csSchool').value,
+    principalName: document.getElementById('csPrincipal').value,
+    title: document.getElementById('csTitle').value,
+    message: document.getElementById('csMsg').value
+  };
+  await sSet('certSettings', cs, true);
+  document.getElementById('csOut').style.color='#2e7d32';
+  document.getElementById('csOut').textContent='✅ Saved.';
+}
+
+async function downloadCSV(){
+  const reports = await loadReports();
+  let csv = "Student,Grade,Section,Topic,Score,Total,Percent,Date\n";
+  reports.forEach(r=>{ csv += `"${r.student}","${r.grade}","${r.section}","${r.topic}",${r.score},${r.total},${r.pct},"${new Date(r.date).toLocaleString()}"\n`; });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'eot3_revision_reports.csv'; a.click();
+}
+
+/* ===================== INIT ===================== */
+renderNav();
+renderSection();
+</script>
+</body>
+</html>
