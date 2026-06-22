@@ -528,16 +528,33 @@ function renderNav(){
   gb.innerHTML = Object.entries(GRADES).map(([k,g])=>
     `<button class="${k===curGrade?'active':''}" onclick="goGrade('${k}')">${g.label}</button>`).join('');
   const sb = document.getElementById('sectionbar');
-  const secs = [['vocab','📖 Vocabulary'],['grammar','✏️ Grammar'],['reading','📰 Reading']];
+  const secs = [['vocab','📖 Vocabulary'],['grammar','✏️ Grammar'],['reading','📰 Reading'],['mockexam','🎯 Mock Exam']];
   sb.innerHTML = secs.map(([k,l])=>`<button class="${k===curSection?'active':''}" onclick="goSection('${k}')">${l}</button>`).join('');
 }
 function goGrade(g){ curGrade=g; renderNav(); renderSection(); }
 function goSection(s){ curSection=s; renderNav(); renderSection(); }
 async function renderSection(){
+  if(curSection==='mockexam'){ renderMockExamCard(); return; }
   const data = await getMerged(curGrade);
   if(curSection==='vocab') renderVocabList(data);
   else if(curSection==='grammar') renderGrammarList(data);
   else renderReadingList(data);
+}
+function renderMockExamCard(){
+  const main = document.getElementById('main');
+  const label = GRADES[curGrade].label;
+  main.innerHTML = `
+    <h2 class="section">🎯 Mock Exam — ${label}</h2>
+    <div class="card" style="text-align:center;">
+      <p style="font-size:.9rem;color:#444;">Three full timed mock exams (A, B, C) — Vocabulary, Grammar, True/False/Not Given, and two Reading passages, 100 marks each. Includes Practice Mode (instant feedback) and Test Mode (timed, monitored), plus a printable certificate at the end.</p>
+      <div style="margin-top:14px;">
+        <a href="qatr_al_nada_mock_exams.html" target="_blank" style="text-decoration:none;">
+          <button class="btn gold">🚀 Open Mock Exam Platform</button>
+        </a>
+      </div>
+      <p style="font-size:.75rem;color:#888;margin-top:10px;">Opens in a new tab. Select "${label}" on the next screen.</p>
+    </div>
+  `;
 }
 
 /* ===================== SPEECH ===================== */
