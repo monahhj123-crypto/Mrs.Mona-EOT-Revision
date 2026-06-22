@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Mock Exams — Qatr Al Nada School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#1a3658;--navy2:#1e4472;--gold:#c8a84b;--gold2:#e8c96a;
+  --teal:#1a6b5a;--white:#fff;--off:#f8f6f2;--border:#d8d0c8;
+  --text:#2a2a2a;--muted:#666;--green:#1a7a3a;--red:#c0392b;
+}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:#2d3561;}
+body.test-active{user-select:none;-webkit-user-select:none;}
+body.test-active img{pointer-events:none;}
+#cheat-banner{animation:slideDown .3s ease;}
+@keyframes slideDown{from{transform:translateY(-100%);}to{transform:translateY(0);}}
+
+/* ─── SCREENS ─── */
+.screen{display:none;width:100%;height:100%;}
+.screen.active{display:flex;flex-direction:column;}
+
+/* ═══════════════════════════════════════════
+   LANDING — full-page like the reference
+═══════════════════════════════════════════ */
+#landing{
+  background:linear-gradient(135deg,#1a3658 0%,#2d3561 50%,#3d2f6e 100%);
+  align-items:center;justify-content:center;
+}
+.land-wrap{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(200,168,75,0.35);
+  border-radius:18px;
+  padding:36px 40px;
+  width:100%;max-width:540px;
+  backdrop-filter:blur(6px);
+}
+.land-header{
+  background:var(--navy);
+  border-radius:10px;
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;margin-bottom:22px;
+}
+.land-header img{height:48px;object-fit:contain;flex-shrink:0;}
+.land-header-mid{flex:1;text-align:center;color:var(--gold);}
+.land-header-mid h2{font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+.land-header-mid p{font-size:11px;opacity:.75;margin-top:2px;}
+.land-title{text-align:center;color:#fff;margin-bottom:20px;}
+.land-title h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;margin-bottom:4px;}
+.land-title p{font-size:13px;color:var(--gold);font-weight:600;}
+
+.lf-label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:rgba(255,255,255,.6);margin-bottom:6px;display:block;}
+.lf-input,.lf-select{
+  width:100%;padding:11px 14px;border:1.5px solid rgba(200,168,75,.3);
+  border-radius:9px;font-size:14px;font-family:'Inter',sans-serif;
+  background:rgba(255,255,255,.08);color:#fff;transition:border .2s;
+  margin-bottom:14px;
+}
+.lf-input::placeholder{color:rgba(255,255,255,.4);}
+.lf-input:focus,.lf-select:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.12);}
+.lf-select option{background:#1a3658;color:#fff;}
+
+.pick-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.pick-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+
+.epick{
+  background:rgba(26,54,88,.7);color:#fff;
+  border:2px solid rgba(200,168,75,.25);border-radius:10px;
+  padding:12px 6px;cursor:pointer;text-align:center;
+  font-family:'Inter',sans-serif;transition:all .2s;
+}
+.epick:hover{border-color:var(--gold);background:rgba(30,68,114,.9);}
+.epick.sel{border-color:var(--gold);background:var(--navy2);box-shadow:0 0 0 2px var(--gold);}
+.epick-num{font-size:24px;font-weight:800;color:var(--gold);line-height:1;}
+.epick-lbl{font-size:10px;opacity:.7;margin-top:2px;}
+
+.mpick{
+  background:rgba(255,255,255,.07);color:#fff;
+  border:2px solid rgba(255,255,255,.15);border-radius:10px;
+  padding:12px 8px;cursor:pointer;text-align:center;
+  font-family:'Inter',sans-serif;transition:all .2s;
+}
+.mpick:hover{border-color:var(--gold);}
+.mpick.sel{border-color:var(--gold);background:rgba(200,168,75,.15);box-shadow:0 0 0 2px var(--gold);}
+.mpick-icon{font-size:20px;margin-bottom:4px;}
+.mpick-name{font-size:13px;font-weight:700;}
+.mpick-desc{font-size:10px;opacity:.6;margin-top:2px;}
+
+.start-btn{
+  width:100%;padding:15px;border:none;border-radius:11px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);font-size:16px;font-weight:800;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.5px;
+}
+.start-btn:disabled{opacity:.35;cursor:not-allowed;}
+.start-btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,168,75,.4);}
+.land-footer{text-align:center;font-size:11px;color:rgba(255,255,255,.4);margin-top:14px;}
+
+/* ═══════════════════════════════════════════
+   TOPBAR (exam + results)
+═══════════════════════════════════════════ */
+.topbar{
+  background:linear-gradient(90deg,var(--navy) 0%,var(--navy2) 100%);
+  height:52px;flex-shrink:0;display:flex;align-items:center;
+  padding:0 18px;gap:12px;z-index:50;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+.tb-icon{width:32px;height:32px;background:var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.tb-info{flex:1;color:#fff;}
+.tb-title{font-size:13px;font-weight:700;line-height:1.2;}
+.tb-sub{font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:.4px;}
+.tb-progress{flex:1;max-width:200px;height:4px;background:rgba(255,255,255,.2);
+  border-radius:2px;overflow:hidden;}
+.tb-progress-fill{height:100%;background:var(--gold);transition:width .4s;}
+.tb-nav{display:flex;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:600;}
+.nav-arr{width:28px;height:28px;background:rgba(255,255,255,.12);border:none;
+  border-radius:6px;color:#fff;cursor:pointer;font-size:15px;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.nav-arr:hover{background:rgba(255,255,255,.22);}
+.nav-arr:disabled{opacity:.3;cursor:not-allowed;}
+.timer{
+  background:rgba(0,0,0,.3);border:2px solid var(--gold);border-radius:7px;
+  padding:5px 12px;color:#fff;font-size:15px;font-weight:800;
+  font-variant-numeric:tabular-nums;min-width:72px;text-align:center;
+}
+.timer.urgent{border-color:#e74c3c;color:#e74c3c;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.tb-btn{padding:7px 14px;border-radius:7px;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;transition:all .2s;}
+.tb-submit{background:linear-gradient(135deg,#1a7a3a,#1d8a42);color:#fff;}
+.tb-submit:hover{background:linear-gradient(135deg,#15622f,#176834);}
+.tb-exit{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);}
+.tb-exit:hover{background:rgba(255,255,255,.2);}
+
+/* progress strip */
+.prog-strip{height:3px;background:rgba(255,255,255,.15);flex-shrink:0;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s;}
+
+/* ═══════════════════════════════════════════
+   EXAM BODY
+═══════════════════════════════════════════ */
+#exam-view{background:#f0f0f5;}
+.exam-body{flex:1;display:flex;overflow:hidden;min-height:0;}
+
+/* passage panel */
+.pass-panel{
+  flex:1;padding:24px 28px;overflow-y:auto;
+  background:#fff;border-right:1px solid var(--border);
+}
+.pass-sec-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;margin-bottom:14px;
+}
+.pill-vocab{background:#e8f4fd;color:var(--navy);border:1px solid #bde0f7;}
+.pill-gram {background:#edf7ee;color:var(--teal);border:1px solid #c0e8c5;}
+.pill-tfng {background:#fef5e0;color:#7a5000;border:1px solid #f0d080;}
+.pill-mcqb {background:#eef0fb;color:#2c4a9e;border:1px solid #bcc8f0;}
+.pill-mcqc {background:#fde8e8;color:#8b1a1a;border:1px solid #f0b0b0;}
+.pass-instr{
+  background:var(--off);border-left:4px solid var(--gold);
+  padding:10px 14px;border-radius:0 7px 7px 0;
+  font-size:13px;font-weight:600;color:var(--navy);margin-bottom:18px;
+}
+.pass-title{font-size:16px;font-weight:700;color:var(--navy);
+  margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold);}
+.pass-text{font-size:14px;line-height:1.95;color:var(--text);}
+.gap-tag{
+  display:inline-block;background:#fffbf0;border:2px solid var(--gold);
+  border-radius:4px;padding:0 7px;font-weight:700;color:var(--navy);
+  min-width:26px;text-align:center;font-size:13px;
+}
+
+/* question panel */
+.q-panel{
+  width:500px;flex-shrink:0;padding:20px;overflow-y:auto;
+  background:var(--off);
+}
+.exam-body.single .pass-panel{display:none;}
+.exam-body.single .q-panel{width:100%;max-width:680px;margin:0 auto;}
+
+.test-alert{
+  background:#fffbf0;border:1.5px solid var(--gold);border-radius:7px;
+  padding:9px 13px;margin-bottom:10px;font-size:12px;font-weight:600;
+  color:#7a5a00;display:flex;align-items:center;gap:7px;
+}
+.q-bar-track{height:5px;background:#e0e0e0;border-radius:3px;margin-bottom:10px;}
+.q-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#27ae60,#2ecc71);transition:width 1s linear;}
+.q-bar-fill.mid{background:linear-gradient(90deg,#e67e22,#f39c12);}
+.q-bar-fill.low{background:linear-gradient(90deg,#c0392b,#e74c3c);}
+.q-bar-lbl{text-align:right;font-size:11px;color:var(--muted);margin-bottom:10px;}
+
+.q-block{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:18px;}
+.q-num{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;}
+.q-text{font-size:14.5px;line-height:1.65;color:var(--text);margin-bottom:16px;}
+.opts{display:flex;flex-direction:column;gap:9px;}
+.opt{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;
+  border:2px solid var(--border);border-radius:9px;background:#fff;
+  cursor:pointer;transition:all .15s;text-align:left;width:100%;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
+}
+.opt:hover:not(:disabled){border-color:var(--navy);background:#f0f4fa;}
+.opt.sel{border-color:var(--gold);background:#fffbf0;}
+.opt.ok {border-color:var(--green);background:#f0fff4;color:var(--green);}
+.opt.bad{border-color:var(--red);background:#fff5f5;color:var(--red);}
+.opt:disabled{cursor:default;}
+.opt-let{
+  width:26px;height:26px;border:2px solid var(--border);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;transition:all .15s;
+}
+.opt.sel .opt-let{border-color:var(--gold);background:var(--gold);color:#fff;}
+.opt.ok  .opt-let{border-color:var(--green);background:var(--green);color:#fff;}
+.opt.bad .opt-let{border-color:var(--red);background:var(--red);color:#fff;}
+
+.tfng-row{display:flex;gap:8px;}
+.tfng-btn{
+  flex:1;padding:11px 6px;border:2px solid var(--border);border-radius:9px;
+  background:#fff;cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;color:var(--text);
+  transition:all .15s;text-align:center;
+}
+.tfng-btn:hover:not(:disabled){border-color:var(--navy);background:#f0f4fa;}
+.tfng-btn.sel{border-color:var(--gold);background:#fffbf0;}
+.tfng-btn.ok {border-color:var(--green);background:#f0fff4;color:var(--green);}
+.tfng-btn.bad{border-color:var(--red);background:#fff5f5;color:var(--red);}
+.tfng-btn:disabled{cursor:default;}
+
+.fb{margin-top:12px;padding:10px 14px;border-radius:7px;font-size:13px;
+    font-weight:600;display:none;align-items:center;gap:7px;}
+.fb.show{display:flex;}
+.fb.ok-fb{background:#f0fff4;border:1.5px solid #a8d8b4;color:var(--green);}
+.fb.bad-fb{background:#fff5f5;border:1.5px solid #f5b0a8;color:var(--red);}
+
+.sec-marks{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted);}
+
+/* ═══════════════════════════════════════════
+   RESULTS
+═══════════════════════════════════════════ */
+#results-view{background:var(--off);}
+.results-body{flex:1;overflow-y:auto;padding:14px 20px;max-width:960px;width:100%;margin:0 auto;}
+
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:10px;}
+.score-circ{
+  width:88px;height:88px;border-radius:50%;border:6px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.score-circ.ga{border-color:#27ae60;} .score-circ.gb{border-color:#2980b9;}
+.score-circ.gc{border-color:var(--gold);} .score-circ.gd{border-color:var(--red);}
+.score-pct{font-size:22px;font-weight:800;line-height:1;}
+.score-pct.ga{color:#27ae60;} .score-pct.gb{color:#2980b9;}
+.score-pct.gc{color:#c8a000;} .score-pct.gd{color:var(--red);}
+.score-raw{font-size:11px;color:var(--muted);margin-top:2px;}
+.score-info h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.score-info p{font-size:13px;color:var(--muted);}
+.grade-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 14px;
+  border-radius:20px;font-weight:700;font-size:12px;margin-top:6px;}
+.grade-pill.pass{background:#e8f8ee;color:var(--green);border:1.5px solid #a8d8b4;}
+.grade-pill.fail{background:#ffe8e8;color:var(--red);border:1.5px solid #f5b0a8;}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+.stat{background:#fff;border:1.5px solid var(--border);border-radius:9px;
+  padding:9px 8px;text-align:center;}
+.stat-v{font-size:18px;font-weight:800;color:var(--navy);}
+.stat-l{font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+
+.breakdown{background:#fff;border:1.5px solid var(--border);border-radius:10px;
+  overflow:hidden;margin-bottom:10px;}
+.bd-head{background:var(--navy);color:#fff;padding:10px 16px;font-size:12px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.bd-row{display:flex;align-items:center;gap:10px;padding:6px 14px;
+  border-bottom:1px solid var(--border);}
+.bd-row:last-child{border-bottom:none;}
+.bd-lbl{font-size:12px;font-weight:600;color:var(--navy);width:170px;flex-shrink:0;}
+.bd-track{flex:1;height:9px;background:#eee;border-radius:4px;}
+.bd-fill{height:100%;border-radius:4px;}
+.bd-sc{font-size:12px;font-weight:700;width:50px;text-align:right;}
+
+/* ═══════════════════════════════════════════
+   CERTIFICATE — landscape reference style
+═══════════════════════════════════════════ */
+.cert-wrap{
+  background:#fffdf4;border:4px double var(--gold);
+  border-radius:3px;max-width:800px;margin:0 auto;
+  overflow:hidden;position:relative;
+  box-shadow:0 6px 24px rgba(0,0,0,.15);
+}
+.cert-inner-border{margin:5px;border:1.5px solid var(--gold);border-radius:1px;overflow:hidden;}
+
+/* navy header */
+.cert-nav-bar{
+  background:var(--navy);display:flex;align-items:center;
+  justify-content:space-between;padding:8px 16px;
+}
+.cert-nav-logo{height:44px;object-fit:contain;flex-shrink:0;}
+.cert-nav-title{font-size:16px;font-weight:800;color:var(--gold);
+  letter-spacing:2px;text-transform:uppercase;flex:1;text-align:center;}
+
+/* star rows */
+.cert-stars-row{
+  background:#fffdf4;text-align:center;font-size:14px;
+  letter-spacing:8px;color:var(--gold);padding:5px 0;
+  text-shadow:0 1px 4px rgba(200,168,75,.4);
+}
+
+/* body */
+.cert-body{padding:10px 32px 14px;text-align:center;position:relative;}
+.cert-bg-stars{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:200px;color:var(--gold);opacity:.025;user-select:none;letter-spacing:40px;
+}
+.cert-rel{position:relative;z-index:1;}
+
+.cert-appreciation{font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.cert-big-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;
+  color:var(--navy);margin-bottom:6px;letter-spacing:1px;}
+.cert-divider{display:flex;align-items:center;gap:10px;margin:6px 0;}
+.cert-divider::before,.cert-divider::after{content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.cert-divider span{color:var(--gold);font-size:14px;}
+.cert-presented{font-size:12px;color:var(--muted);margin-bottom:3px;}
+.cert-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;
+  color:var(--navy);border-bottom:2px solid var(--gold);display:inline-block;
+  padding-bottom:3px;margin-bottom:6px;min-width:180px;}
+.cert-ach{font-size:12px;color:#444;line-height:1.8;margin-bottom:6px;}
+.cert-trophy{font-size:28px;margin:4px 0 2px;line-height:1;}
+.cert-badge-ring{
+  width:66px;height:66px;border-radius:50%;border:3px solid;
+  display:inline-flex;flex-direction:column;align-items:center;
+  justify-content:center;margin:4px 0 6px;
+}
+.cbr-pct{font-size:16px;font-weight:800;line-height:1;}
+.cbr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;}
+.cbr-gold{border-color:var(--gold);color:var(--gold);}
+.cbr-silver{border-color:#95a5a6;color:#7f8c8d;}
+.cbr-bronze{border-color:#cd7f32;color:#cd7f32;}
+.cbr-blue{border-color:#2980b9;color:#2980b9;}
+.cert-score-stars{font-size:16px;letter-spacing:6px;color:var(--gold);
+  margin-bottom:4px;text-shadow:0 1px 5px rgba(200,168,75,.5);}
+.cert-motto{font-size:11.5px;font-style:italic;color:#8b1a1a;font-weight:700;margin-bottom:8px;}
+.cert-sigs{display:flex;justify-content:space-around;padding-top:8px;
+  border-top:1px solid rgba(200,168,75,.3);margin-top:6px;}
+.cert-sig{text-align:center;}
+.sig-line{width:130px;height:1.5px;background:var(--navy);margin:0 auto 4px;}
+.sig-name{font-size:12px;font-weight:700;color:var(--navy);}
+.sig-title{font-size:10px;color:var(--muted);}
+.cert-date{font-size:10px;color:var(--muted);margin-top:6px;}
+
+.print-btn{
+  display:block;width:100%;margin-top:10px;padding:13px;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;
+}
+.print-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(26,54,88,.3);}
+
+@media print{
+  body>*:not(#results-view){display:none!important;}
+  .topbar,.results-body>*:not(.cert-section){display:none!important;}
+  .cert-wrap{box-shadow:none;} .print-btn{display:none;}
+}
+@media(max-width:680px){
+  .exam-body:not(.single) .pass-panel{max-height:40vh;border-right:none;border-bottom:1px solid var(--border);}
+  .exam-body:not(.single){flex-direction:column;}
+  .q-panel{width:100%!important;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .cert-sigs{flex-direction:column;align-items:center;gap:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ LANDING ══ -->
+<div id="landing" class="screen active">
+  <div class="land-wrap">
+    <div class="land-header">
+      <img src="data:image/png;base64,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" alt="Nitaq"/>
+      <div class="land-header-mid">
+        <h2>Qatr Al Nada School</h2>
+        <p>English Exam Practice · Term 3</p>
+      </div>
+      <img src="data:image/png;base64,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" alt="MoE"/>
+    </div>
+
+    <div class="land-title">
+      <h1>English Exam Practice</h1>
+      <p>Mrs. Mona Mohamed &nbsp;·&nbsp; Grade 9 ADV / Grade 10 GEN</p>
+    </div>
+
+    <label class="lf-label">Full Name</label>
+    <input class="lf-input" id="s-name" type="text" placeholder="Enter your full name…" oninput="chk()"/>
+
+    <label class="lf-label">Your Grade</label>
+    <select class="lf-select" id="s-grade" onchange="chk()">
+      <option value="">Select your grade…</option>
+      <option>Grade 9 Advanced</option>
+      <option>Grade 10 General</option>
+      <option>Grade 10 Advanced</option>
+    </select>
+
+    <label class="lf-label">Choose Exam</label>
+    <div class="pick-grid-3" style="margin-bottom:14px;">
+      <button class="epick" onclick="pickExam(0,this)">
+        <div class="epick-num">A</div><div class="epick-lbl">Mock Exam</div>
+      </button>
+      <button class="epick" onclick="pickExam(1,this)">
+        <div class="epick-num">B</div><div class="epick-lbl">Mock Exam</div>
+      </button>
+      <button class="epick" onclick="pickExam(2,this)">
+        <div class="epick-num">C</div><div class="epick-lbl">Mock Exam</div>
+      </button>
+    </div>
+
+    <label class="lf-label">Choose Mode</label>
+    <div class="pick-grid-2">
+      <button class="mpick" onclick="pickMode('practice',this)">
+        <div class="mpick-icon">📚</div>
+        <div class="mpick-name">Practice</div>
+        <div class="mpick-desc">Instant feedback</div>
+      </button>
+      <button class="mpick" onclick="pickMode('test',this)">
+        <div class="mpick-icon">⚡</div>
+        <div class="mpick-name">Test Mode</div>
+        <div class="mpick-desc">Timed · No going back</div>
+      </button>
+    </div>
+
+    <button class="start-btn" id="go-btn" onclick="go()" disabled>▶ Start Exam</button>
+    <div class="land-footer">Term 3 Practice Exams · UAE Curriculum · Al Dhafra Cluster</div>
+    <div class="land-footer" style="margin-top:6px;">
+      👁️ Visitors: <span id="visitor-count">…</span>
+      &nbsp;·&nbsp;
+      <span style="cursor:pointer;text-decoration:underline;opacity:.7;" onclick="openDashboard()">Teacher Dashboard</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EXAM ══ -->
+<div id="exam-view" class="screen">
+  <div class="topbar">
+    <div class="tb-icon">📘</div>
+    <div class="tb-info">
+      <div class="tb-title" id="tb-title">Mock Exam A</div>
+      <div class="tb-sub" id="tb-sub">Mrs. Mona Mohamed · Practice Mode</div>
+    </div>
+    <div class="tb-progress"><div class="tb-progress-fill" id="tb-prog" style="width:0%"></div></div>
+    <div class="tb-nav">
+      <button class="nav-arr" id="nav-prev" onclick="nav(-1)">◀</button>
+      <span id="nav-lbl">§1 Q1/5</span>
+      <button class="nav-arr" id="nav-next" onclick="nav(1)">▶</button>
+    </div>
+    <div class="timer" id="timer">90:00</div>
+    <button class="tb-btn tb-submit" id="sub-btn" onclick="confirmSubmit()">Submit ✓</button>
+    <button class="tb-btn tb-exit" onclick="exitExam()">◄ Exit</button>
+  </div>
+  <div class="prog-strip"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="exam-body" id="exam-body">
+    <div class="pass-panel" id="pass-panel"></div>
+    <div class="q-panel" id="q-panel"></div>
+  </div>
+</div>
+
+<!-- ══ TEACHER DASHBOARD ══ -->
+<div id="dashboard-view" class="screen">
+  <div class="topbar">
+    <div class="tb-icon">📊</div>
+    <div class="tb-info">
+      <div class="tb-title">Teacher Dashboard — Mrs. Mona Mohamed</div>
+      <div class="tb-sub">Qatr Al Nada School · Al Dhafra Cluster</div>
+    </div>
+    <button class="tb-btn tb-submit" onclick="refreshDashboard()">↻ Refresh</button>
+    <button class="tb-btn tb-submit" onclick="exportCSV()">⬇ Export CSV</button>
+    <button class="tb-btn tb-exit" onclick="goLanding()">◄ Back</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:18px 24px;max-width:1100px;width:100%;margin:0 auto;">
+
+    <!-- PIN gate -->
+    <div id="dash-gate" style="max-width:340px;margin:60px auto;text-align:center;
+      background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:32px 28px;">
+      <div style="font-size:40px;margin-bottom:10px;">🔒</div>
+      <h3 style="color:var(--navy);margin-bottom:6px;">Teacher Access</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Enter your PIN to view student results</p>
+      <input id="dash-pin" type="password" placeholder="Enter PIN"
+        style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:9px;
+        text-align:center;font-size:18px;letter-spacing:4px;margin-bottom:14px;"
+        onkeydown="if(event.key==='Enter')checkPin()"/>
+      <button class="start-btn" onclick="checkPin()">Unlock Dashboard</button>
+      <div id="pin-err" style="color:var(--red);font-size:12px;margin-top:10px;display:none;">Incorrect PIN. Try again.</div>
+    </div>
+
+    <!-- Dashboard content -->
+    <div id="dash-content" style="display:none;">
+      <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px;">
+        <div class="stat"><div class="stat-v" id="d-total">0</div><div class="stat-l">Submissions</div></div>
+        <div class="stat"><div class="stat-v" id="d-avg">0%</div><div class="stat-l">Avg Score</div></div>
+        <div class="stat"><div class="stat-v" id="d-visitors">0</div><div class="stat-l">Visitors</div></div>
+        <div class="stat"><div class="stat-v" id="d-flags">0</div><div class="stat-l">Cheat Flags</div></div>
+      </div>
+
+      <div style="background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;">
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;" id="dash-table">
+            <thead>
+              <tr style="background:var(--navy);color:#fff;text-align:left;">
+                <th style="padding:10px 12px;">#</th>
+                <th style="padding:10px 12px;">Name</th>
+                <th style="padding:10px 12px;">Grade</th>
+                <th style="padding:10px 12px;">Exam</th>
+                <th style="padding:10px 12px;">Mode</th>
+                <th style="padding:10px 12px;">Score</th>
+                <th style="padding:10px 12px;">%</th>
+                <th style="padding:10px 12px;">Time</th>
+                <th style="padding:10px 12px;">Flags</th>
+                <th style="padding:10px 12px;">When</th>
+              </tr>
+            </thead>
+            <tbody id="dash-tbody"></tbody>
+          </table>
+        </div>
+        <div id="dash-empty" style="text-align:center;padding:30px;color:var(--muted);font-size:14px;display:none;">
+          No results yet. Students' submissions will appear here.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div id="results-view" class="screen">
+  <div class="topbar">
+    <div class="tb-icon">🏆</div>
+    <div class="tb-info">
+      <div class="tb-title" id="rb-title">Your Results</div>
+      <div class="tb-sub" id="rb-sub">QATR AL NADA SCHOOL</div>
+    </div>
+    <button class="tb-btn tb-submit" onclick="tryAnother()">Try Another ▶</button>
+    <button class="tb-btn tb-exit" onclick="goLanding()">Change Grade</button>
+  </div>
+  <div class="results-body">
+    <div class="score-row">
+      <div class="score-circ" id="res-circ">
+        <div class="score-pct" id="res-pct">0%</div>
+        <div class="score-raw" id="res-raw">0/100</div>
+      </div>
+      <div class="score-info">
+        <h3 id="res-msg">Well done!</h3>
+        <p id="res-credit">Grade 10 General · Mrs. Mona Mohamed</p>
+        <div class="grade-pill" id="res-pill">✓ PASS</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-v" id="st-score">0</div><div class="stat-l">Score</div></div>
+      <div class="stat"><div class="stat-v">100</div><div class="stat-l">Max</div></div>
+      <div class="stat"><div class="stat-v" id="st-pct">0%</div><div class="stat-l">Percent</div></div>
+      <div class="stat"><div class="stat-v" id="st-time">0:00</div><div class="stat-l">Time</div></div>
+    </div>
+
+    <div class="breakdown" id="breakdown">
+      <div class="bd-head">Score Breakdown by Part</div>
+    </div>
+
+    <div id="prac-note" style="display:none;text-align:center;font-size:12px;color:var(--muted);
+      padding:8px;background:#f8f8f8;border-radius:7px;margin-bottom:8px;">
+      💡 Detailed review available in Practice Mode
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div class="cert-section" style="margin-top:6px;">
+      <div class="cert-wrap" id="certificate">
+        <div class="cert-inner-border">
+          <div class="cert-nav-bar">
+            <img src="data:image/png;base64,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" class="cert-nav-logo" alt="Nitaq"/>
+            <div class="cert-nav-title">QATR AL NADA SCHOOL</div>
+            <img src="data:image/png;base64,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" class="cert-nav-logo" alt="MoE"/>
+          </div>
+          <div class="cert-stars-row">★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+          <div class="cert-body">
+            <div class="cert-bg-stars">★ ★ ★</div>
+            <div class="cert-rel">
+              <div class="cert-appreciation">✦ Certificate of Achievement ✦</div>
+              <div class="cert-big-title">English Language Excellence</div>
+              <div class="cert-divider"><span>★</span></div>
+              <div class="cert-presented">This certificate is proudly presented to</div>
+              <div class="cert-name" id="cert-name">Student Name</div>
+              <div class="cert-ach" id="cert-ach">
+                for successfully completing Term 3 English Mock Exam Practice<br>
+                <em>demonstrating dedication, courage, and outstanding effort.</em>
+              </div>
+              <div class="cert-trophy">🏆</div>
+              <div class="cert-badge-ring cbr-gold" id="cert-badge">
+                <div class="cbr-pct" id="cert-pct">—</div>
+                <div class="cbr-lbl" id="cert-lbl">Score</div>
+              </div>
+              <div class="cert-score-stars" id="cert-stars">★★★★★</div>
+              <div class="cert-motto" id="cert-motto">"Every expert was once a beginner — keep shining! ✨"</div>
+              <div class="cert-sigs">
+                <div class="cert-sig">
+                  <div class="sig-line"></div>
+                  <div class="sig-name">Mrs. Mona Mohamed</div>
+                  <div class="sig-title">English Language Teacher</div>
+                </div>
+                <div class="cert-sig">
+                  <div class="sig-line"></div>
+                  <div class="sig-name">Mrs. Ashwaq Almansouri</div>
+                  <div class="sig-title">School Principal</div>
+                </div>
+              </div>
+              <div class="cert-date" id="cert-date">Date: —</div>
+            </div>
+          </div>
+          <div class="cert-stars-row">★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+        </div>
+      </div>
+      <button class="print-btn" onclick="printCert()">🖨️ Save / Print Your Certificate</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EXAMS = [
+  {
+    id: 'A',
+    title: 'Mock Exam A',
+    grade: 'Grade 9 ADV / Grade 10 GEN',
+    cefr: 'B1.1–B1.2',
+    sections: [
+      {
+        id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖',
+        layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'A-1-1', text:'The flat is completely _____. You will need to buy all your own furniture.', opts:['furnished','unfurnished','onsite'], ans:1, marks:2 },
+          { id:'A-1-2', text:'She was completely _____ when her host family asked her to bow as a greeting.', opts:['formal','adapt','amazed'], ans:2, marks:2 },
+          { id:'A-1-3', text:'She paid three months\' rent to the _____ who owns the building.', opts:['tenant','landlord','co-op'], ans:1, marks:2 },
+          { id:'A-1-4', text:'Could you show me how to _____ the table properly before the dinner guests arrive?', opts:['behave','set','handle'], ans:1, marks:2 },
+          { id:'A-1-5', text:'The security deposit is _____. You will receive all your money back when you leave.', opts:['onsite','cramped','refundable'], ans:2, marks:2 }
+        ]
+      },
+      {
+        id:'P2', label:'Part 2 — Grammar', pill:'pill-grammar', marks:10, icon:'📝',
+        layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'For centuries, homes [1] from natural materials available locally. Stone, mud, and wood [2] the main resources used by most builders across the ancient world. Historians still wonder [3] craftsmen across different cultures developed such similar techniques without ever meeting each other. It is thought that construction skills were [4] down orally through generations. Over time, buildings became far [5] to live in than the simple shelters of ancient times.',
+        questions:[
+          { id:'A-2-1', text:'Gap [1]:', opts:['were built','are built','is building'], ans:0, marks:2 },
+          { id:'A-2-2', text:'Gap [2]:', opts:['was','were','are'], ans:1, marks:2 },
+          { id:'A-2-3', text:'Gap [3]:', opts:['how did','whether','how'], ans:2, marks:2 },
+          { id:'A-2-4', text:'Gap [4]:', opts:['passed','was passed','were passed'], ans:1, marks:2 },
+          { id:'A-2-5', text:'Gap [5]:', opts:['more comfortable','most comfortable','comfortable'], ans:0, marks:2 }
+        ]
+      },
+      {
+        id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍',
+        layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'The History of the Apartment Block',
+        passage:'The apartment block, as most people know it today, has a surprisingly long history. The earliest multi-storey residential buildings were constructed in ancient Rome, where they were known as insulae. These buildings could reach up to six or seven storeys in height and housed hundreds of residents. However, they were often poorly built, and fire was a constant danger. The modern apartment block developed during the 19th century in Europe and North America. The introduction of the elevator in the 1850s was a crucial turning point — without it, buildings could not grow beyond a few floors. Steel-frame construction, which became widespread in the late 1800s, allowed architects to design taller and more complex structures. Today, apartment living is more common than ever. Developers argue that vertical housing is the most efficient way to accommodate growing urban populations while using as little land as possible.',
+        questions:[
+          { id:'A-3A-1', text:'The earliest multi-storey residential buildings were built in ancient Rome.', ans:'TRUE', marks:4 },
+          { id:'A-3A-2', text:'Ancient Roman insulae were well-constructed and completely safe for residents.', ans:'FALSE', marks:4 },
+          { id:'A-3A-3', text:'Most Roman apartment buildings had gardens on the ground floor.', ans:'NOT GIVEN', marks:4 },
+          { id:'A-3A-4', text:'The elevator was important in making taller buildings possible.', ans:'TRUE', marks:4 },
+          { id:'A-3A-5', text:'Steel-frame construction became widespread in the early 20th century.', ans:'FALSE', marks:4 },
+          { id:'A-3A-6', text:'Apartment buildings always cause residents to feel isolated from their community.', ans:'NOT GIVEN', marks:4 }
+        ]
+      },
+      {
+        id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcq-b', marks:28, icon:'📖',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Homes of the Future',
+        passage:'Architects around the world are already designing homes of the future. One of the most significant trends is the move towards energy-independent homes. These houses generate all their own electricity through solar panels and store it in battery systems, meaning residents are no longer dependent on the national grid. In some cases, excess electricity can be sold back to energy companies. Another major development is the use of smart technology. Modern intelligent homes can adjust lighting, temperature, and security automatically based on the preferences of the people who live in them. Some architects are exploring building homes from entirely new materials, including compressed agricultural waste and recycled plastic. These materials are not only environmentally friendly but are also often stronger than traditional brick and concrete. In many cities, available land is so scarce that architects are designing homes that can physically expand and contract depending on residents\' needs — sometimes called \'breathing buildings\'.',
+        questions:[
+          { id:'A-3B-1', text:'Energy-independent homes are significant because they...', opts:['use traditional building materials','generate and store all their own electricity','are always located in rural areas'], ans:1, marks:4 },
+          { id:'A-3B-2', text:'The word \'excess\' (paragraph 1) most likely means...', opts:['insufficient — not enough electricity','stored — kept in the battery','surplus — more than is needed'], ans:2, marks:4 },
+          { id:'A-3B-3', text:'What is one advantage of using compressed agricultural waste as a building material?', opts:['It is the cheapest material available','It is environmentally friendly and often stronger than brick','It has been used in construction for hundreds of years'], ans:1, marks:4 },
+          { id:'A-3B-4', text:'What is a \'breathing building\'?', opts:['A building designed to have better air ventilation','A home that can expand or contract based on residents\' needs','A house built near forests to improve air quality'], ans:1, marks:4 },
+          { id:'A-3B-5', text:'What is one challenge all future homes must address?', opts:['The high cost of solar technology','The shortage of available land in cities','The rising price of recycled materials'], ans:1, marks:4 },
+          { id:'A-3B-6', text:'The word \'scarce\' (last paragraph) most likely means...', opts:['very plentiful and widely available','in limited supply — not enough of it','easy to build on'], ans:1, marks:4 },
+          { id:'A-3B-7', text:'What is the main idea of this text?', opts:['Future homes will be built entirely from recycled materials','Architects are already creating innovative, sustainable homes for the future','Solar panels are the most important feature of any modern building'], ans:1, marks:4 }
+        ]
+      },
+      {
+        id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcq-c', marks:28, icon:'📚',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Cultural Identity: Assimilation or Diversity?',
+        passage:'Few questions divide opinion in multicultural societies more sharply than whether immigrants should adopt the customs of the country they move to, or whether they should be free to maintain their own cultural identity. The debate has grown more intense as migration patterns have changed dramatically. Those who argue for cultural integration believe that adopting the language, values, and social norms of the host country is essential for social cohesion. They argue that separate communities make it difficult to build the shared understanding that holds a society together. Opponents argue that demanding cultural assimilation is a form of cultural erasure. Diversity, they say, is one of the greatest strengths of any society — bringing new ideas, traditions, and ways of solving problems. A third perspective, gaining support among researchers, proposes that healthy societies encourage genuine cultural exchange — a two-way process in which all members of society learn from each other and develop a richer shared culture. The evidence suggests that communities where cultural exchange is practiced show higher levels of social trust and wellbeing.',
+        questions:[
+          { id:'A-3C-1', text:'Why do some people support cultural integration?', opts:['They believe it creates more economic opportunities','They argue it is necessary for social cohesion','They think it makes communities more creative'], ans:1, marks:4 },
+          { id:'A-3C-2', text:'What do opponents of assimilation argue about diversity?', opts:['It increases crime in urban areas','It brings new ideas and strengths to society','It slows economic development'], ans:1, marks:4 },
+          { id:'A-3C-3', text:'The word \'erasure\' (paragraph 3) most likely means...', opts:['the removal or destruction of something','a form of artistic expression','a method of improving integration'], ans:0, marks:4 },
+          { id:'A-3C-4', text:'What does the \'third perspective\' suggest?', opts:['Immigrants should learn the local language as fast as possible','Governments should study more cases first','Healthy societies should encourage genuine two-way cultural exchange'], ans:2, marks:4 },
+          { id:'A-3C-5', text:'What does the evidence in the last paragraph suggest?', opts:['Forced assimilation leads to the happiest communities','Communities practicing cultural exchange show higher social trust','All cultural differences will eventually disappear'], ans:1, marks:4 },
+          { id:'A-3C-6', text:'The writer\'s overall tone in this text is best described as...', opts:['strongly in favor of assimilation','strongly opposed to immigration','balanced — presenting several perspectives fairly'], ans:2, marks:4 },
+          { id:'A-3C-7', text:'What is the main argument of this text?', opts:['Immigrants must always follow the norms of their new country','Cultural diversity always causes social tension','A two-way cultural exchange may be more effective than forced assimilation.'], ans:2, marks:4 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'B',
+    title: 'Mock Exam B',
+    grade: 'Grade 9 ADV / Grade 10 GEN',
+    cefr: 'B1.1–B1.2',
+    sections: [
+      {
+        id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖',
+        layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'B-1-1', text:'The flat is described as _____: only one person could stand up comfortably.', opts:['refundable','cramped','furnished'], ans:1, marks:2 },
+          { id:'B-1-2', text:'It is a _____ in many Asian countries to offer food with both hands.', opts:['napkin','custom','downside'], ans:1, marks:2 },
+          { id:'B-1-3', text:'She was so _____ by the size of the dormitory — it was even bigger than she expected.', opts:['formal','amazed','informal'], ans:1, marks:2 },
+          { id:'B-1-4', text:'The _____ of sharing accommodation is that you lose most of your privacy.', opts:['downside','napkin','silverware'], ans:0, marks:2 },
+          { id:'B-1-5', text:'Always _____ when visiting someone else\'s home — be polite and respectful.', opts:['handle','set','behave'], ans:2, marks:2 }
+        ]
+      },
+      {
+        id:'P2', label:'Part 2 — Grammar', pill:'pill-grammar', marks:10, icon:'📝',
+        layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'Venice in northern Italy [1] on a group of 118 small islands connected by canals. No other city in the world is quite like it. Visitors always wonder [2] the original builders chose such an unusual location. Historians believe it was chosen for protection, as water made it extremely difficult for enemies to attack. The city is also far [3] than it appears in photographs — you can walk across the historic centre in under thirty minutes. [4], find a map and identify the main landmarks. The experience of navigating Venice is [5] overwhelming at first.',
+        questions:[
+          { id:'B-2-1', text:'Gap [1]:', opts:['is built','was built','build'], ans:0, marks:2 },
+          { id:'B-2-2', text:'Gap [2]:', opts:['what did','how did','why'], ans:2, marks:2 },
+          { id:'B-2-3', text:'Gap [3]:', opts:['smaller','most small','more small'], ans:0, marks:2 },
+          { id:'B-2-4', text:'Gap [4]:', opts:['After that','Finally','First'], ans:2, marks:2 },
+          { id:'B-2-5', text:'Gap [5]:', opts:['quite','absolutely','very much'], ans:0, marks:2 }
+        ]
+      },
+      {
+        id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍',
+        layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'Dining Customs Around the World',
+        passage:'Dining customs vary greatly from one country to another. In Japan, it is considered polite to say \'itadakimasu\' before eating. Finishing all the food on your plate is seen as a compliment to the cook. In contrast, leaving a small amount of food on your plate in some Middle Eastern cultures signals to the host that you have eaten enough and are satisfied. In France, meals are typically long social occasions with multiple courses. Rushing through a meal is generally considered rude. In Ethiopia, a traditional flatbread called injera is shared from a single large plate. Researchers argue that dining customs are among the most revealing windows into the values of any culture.',
+        questions:[
+          { id:'B-3A-1', text:'In Japan, finishing your plate is seen as a compliment to the cook.', ans:'TRUE', marks:4 },
+          { id:'B-3A-2', text:'In France, it is considered polite to finish a meal as quickly as possible.', ans:'FALSE', marks:4 },
+          { id:'B-3A-3', text:'Most French restaurants require guests to book in advance.', ans:'NOT GIVEN', marks:4 },
+          { id:'B-3A-4', text:'In some Middle Eastern cultures, leaving a small amount of food is a sign you are satisfied.', ans:'TRUE', marks:4 },
+          { id:'B-3A-5', text:'Injera is made from a type of wheat flour.', ans:'NOT GIVEN', marks:4 },
+          { id:'B-3A-6', text:'Researchers believe dining customs reveal nothing meaningful about a culture.', ans:'FALSE', marks:4 }
+        ]
+      },
+      {
+        id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcq-b', marks:28, icon:'📖',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'What Does Home Really Mean?',
+        passage:'For much of history, people expected to live in the same house or village for most of their lives. The concept of \'home\' was inseparable from a specific place, a community of familiar faces, and deeply rooted traditions. The 20th century changed everything. Industrialization, urbanization, and globalization created enormous pressure on people to move — from countryside to city, and from country to country. Today, it is estimated that over 280 million people live outside the country where they were born. This has fundamentally changed how many people think about home. For many individuals, home is no longer a fixed physical location but an idea — a sense of belonging created through relationships and memories rather than geography. Co-living spaces, which offer flexible accommodation to mobile professionals, have grown rapidly in cities around the world. The result is a complex picture: a world in which people have more freedom to move than ever before, but in which the feeling of truly \'belonging somewhere\' has become harder to find.',
+        questions:[
+          { id:'B-3B-1', text:'According to paragraph 1, in the past, moving away from your home was often seen as...', opts:['an exciting opportunity for growth','an important cultural tradition','a kind of loss'], ans:2, marks:4 },
+          { id:'B-3B-2', text:'What does the writer say happened in the 20th century?', opts:['People chose to stay in their villages longer','Industrialization and globalization pushed people to move','Architecture became more important to daily life'], ans:1, marks:4 },
+          { id:'B-3B-3', text:'\'No longer a fixed physical location\' (paragraph 3) suggests that home has become...', opts:['less important to most people','an idea based on belonging rather than place','a concept only wealthy people can afford'], ans:1, marks:4 },
+          { id:'B-3B-4', text:'What type of accommodation has grown rapidly according to paragraph 4?', opts:['Traditional family houses','Government-funded social housing','Co-living spaces for mobile professionals'], ans:2, marks:4 },
+          { id:'B-3B-5', text:'The phrase "complex picture" (last paragraph) suggests...', opts:['a simple situation','a situation with several different aspects','a visual image'], ans:1, marks:4 },
+          { id:'B-3B-6', text:'The writer\'s attitude is best described as...', opts:['strongly critical of global migration','enthusiastic about co-living spaces','thoughtful and balanced'], ans:2, marks:4 },
+          { id:'B-3B-7', text:'What is the main message of this text?', opts:['People should always return to their place of birth','Co-living spaces are the best solution for modern life','Globalization has made the concept of home more complex and less fixed'], ans:2, marks:4 }
+        ]
+      },
+      {
+        id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcq-c', marks:28, icon:'📚',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Does City Design Affect Happiness?',
+        passage:'For decades, the dominant view was that livability depended primarily on economic factors: employment rates, average income, and access to services. This view has been challenged by evidence suggesting that the physical design of a city has as much influence on residents\' wellbeing as its economic profile. Studies across Europe and North America found that residents of compact, walkable neighborhoods report higher levels of happiness than those in car-dependent suburbs, even when income levels are similar. One explanation is the role of \'incidental social interaction\' — brief, informal encounters that occur when people share streets and parks. These interactions, researchers argue, create a sense of community almost impossible to replicate in environments designed for the private car. Critics argue that the relationship between urban design and wellbeing is more complex. Many people choose suburbs precisely because they value space and privacy over social contact. City planners are already responding by investing heavily in pedestrian infrastructure and green spaces. Whether these investments will produce the improvements researchers promise remains to be seen.',
+        questions:[
+          { id:'B-3C-1', text:'According to paragraph 1, the traditional view was that livability depended mainly on...', opts:['the physical appearance of buildings','economic factors such as employment and income','the size of a city\'s green spaces'], ans:1, marks:4 },
+          { id:'B-3C-2', text:'What did studies find about walkable neighborhoods?', opts:['They are more affordable than city centres','Residents there tend to report higher levels of happiness','People in higher-income areas always report better wellbeing'], ans:1, marks:4 },
+          { id:'B-3C-3', text:'What does \'incidental social interaction\' mean in this text?', opts:['Organized community events in parks','Brief, informal encounters in shared public spaces','Accidental conversations on the internet'], ans:1, marks:4 },
+          { id:'B-3C-4', text:'Why do some people choose to live in suburbs according to paragraph 4?', opts:['They cannot afford to live in city centres','They prefer space, quiet, and privacy','They want to be closer to nature'], ans:1, marks:4 },
+          { id:'B-3C-5', text:'What might the writer discuss NEXT after this text?', opts:['The history of cars in Europe','Whether investments in walkable cities improve wellbeing as predicted','The economic history of suburban development'], ans:1, marks:4 },
+          { id:'B-3C-6', text:'The word \'replicate\' (paragraph 3) most likely means...', opts:['improve and develop','copy or reproduce','remove or destroy'], ans:1, marks:4 },
+          { id:'B-3C-7', text:'What is the writer\'s overall message?', opts:['Urban design is more important than income for wellbeing','Car-dependent suburbs should be demolished immediately','The relationship between city design and happiness is worth investigating but outcomes are uncertain'], ans:2, marks:4 }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'C',
+    title: 'Mock Exam C',
+    grade: 'Grade 9 ADV / Grade 10 GEN',
+    cefr: 'B1.1–B1.2',
+    sections: [
+      {
+        id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖',
+        layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'C-1-1', text:'Place your _____ on your lap at a formal dinner — never tuck it into your collar.', opts:['silverware','napkin','utensil'], ans:1, marks:2 },
+          { id:'C-1-2', text:'The landlord explained that the _____ is fully refundable when you leave the flat clean.', opts:['meal plan','security deposit','shared facilities'], ans:1, marks:2 },
+          { id:'C-1-3', text:'He made a very good first _____ by following all the local dining customs carefully.', opts:['impression','downside','napkin'], ans:0, marks:2 },
+          { id:'C-1-4', text:'She found it difficult to _____ to the new dining customs at first, but she learned quickly.', opts:['behave','set','adapt'], ans:2, marks:2 },
+          { id:'C-1-5', text:'The main _____ of living in a co-op is that you must share housework with others.', opts:['downside','custom','impression'], ans:0, marks:2 }
+        ]
+      },
+      {
+        id:'P2', label:'Part 2 — Grammar', pill:'pill-grammar', marks:10, icon:'📝',
+        layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'Apartment blocks [1] in most major cities as the most popular form of urban housing today. Historians wonder [2] the very first multi-storey buildings were designed in ancient Rome. It is believed that construction techniques [3] from one culture to another through trade and travel. Modern apartment buildings are far [4] than the ancient insulae — they include lifts, central heating, and electric lighting. [5], the architect draws the plans, and then the builders begin constructing the foundation.',
+        questions:[
+          { id:'C-2-1', text:'Gap [1]:', opts:['are known','is known','was known'], ans:0, marks:2 },
+          { id:'C-2-2', text:'Gap [2]:', opts:['whether','how','how did'], ans:1, marks:2 },
+          { id:'C-2-3', text:'Gap [3]:', opts:['was passed','were passed','passing'], ans:1, marks:2 },
+          { id:'C-2-4', text:'Gap [4]:', opts:['more comfortable','most comfortable','comfortable'], ans:0, marks:2 },
+          { id:'C-2-5', text:'Gap [5]:', opts:['After that','Finally','First'], ans:2, marks:2 }
+        ]
+      },
+      {
+        id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍',
+        layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'Beautiful Architecture',
+        passage:'When people call a building beautiful, they rarely explain exactly what they mean. Ideas about beautiful architecture have changed greatly across history. In ancient Greece and Rome, architects believed that beauty came from symmetry and precise mathematical ratios. The Parthenon in Athens was built with exact proportions designed to create a feeling of balance and harmony. Islamic architecture developed a completely different vision. Builders focused on intricate geometric patterns and the creative use of light. The Great Mosque of Cordoba in Spain creates a feeling of almost endless space. Frank Lloyd Wright argued that a beautiful building must connect with its natural environment. Today, many architects believe that beauty is not just about appearance — it is also about how well a building serves its users.',
+        questions:[
+          { id:'C-3A-1', text:'Ancient Greek architects believed beauty came from precise mathematical ratios.', ans:'TRUE', marks:4 },
+          { id:'C-3A-2', text:'The Great Mosque of Cordoba is located in Portugal.', ans:'FALSE', marks:4 },
+          { id:'C-3A-3', text:'The Parthenon was built by the same craftsmen who built the Great Mosque of Cordoba.', ans:'NOT GIVEN', marks:4 },
+          { id:'C-3A-4', text:'Frank Lloyd Wright believed buildings should connect with their natural environment.', ans:'TRUE', marks:4 },
+          { id:'C-3A-5', text:'Frank Lloyd Wright received a government prize for his architectural work.', ans:'NOT GIVEN', marks:4 },
+          { id:'C-3A-6', text:'Today, some architects think beauty also depends on how well a building works for its users.', ans:'TRUE', marks:4 }
+        ]
+      },
+      {
+        id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcq-b', marks:28, icon:'📖',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Homes of the Future',
+        passage:'Architects and researchers around the world are already designing the homes of the future. Rather than predicting what tomorrow\'s houses will look like, they are building them now. One of the most significant trends is the move towards energy-independent homes. These houses generate all their own electricity through solar panels and store it in battery systems. In some cases, excess electricity can be sold back to energy companies. Another development is the use of smart technology. Modern intelligent homes can adjust lighting, temperature, and security automatically based on the preferences of their residents. Some architects are also exploring building homes from entirely new materials, including compressed agricultural waste and recycled plastic — materials that are not only environmentally friendly but often stronger than traditional brick. In many cities, available land is so scarce that architects are designing homes that can physically expand and contract — sometimes called \'breathing buildings\'.',
+        questions:[
+          { id:'C-3B-1', text:'What is presented as one of the most significant trends in home design?', opts:['The use of stone and mud as natural materials','The move towards energy-independent homes','The return to medieval-style cottages'], ans:1, marks:4 },
+          { id:'C-3B-2', text:'Why is the \'breathing buildings\' concept needed?', opts:['Because traditional materials are running out','Because there is not enough land available in cities','Because residents want bigger gardens'], ans:1, marks:4 },
+          { id:'C-3B-3', text:'What is one advantage of smart technology in homes?', opts:['It makes the building look more modern','It automatically adjusts the home based on residents\' preferences','It reduces the need for architects'], ans:1, marks:4 },
+          { id:'C-3B-4', text:'The word \'scarce\' (last paragraph) most likely means...', opts:['very plentiful and widely available','in limited supply — not enough','easy to build on and develop'], ans:1, marks:4 },
+          { id:'C-3B-5', text:'Compressed agricultural waste is described as...', opts:['an expensive imported material','environmentally friendly and often stronger than brick','a material only used in rural areas'], ans:1, marks:4 },
+          { id:'C-3B-6', text:'The writer\'s main purpose in this text is to...', opts:['criticize current building practices','show that innovative homes are being built right now','argue that solar panels are essential in all new homes'], ans:1, marks:4 },
+          { id:'C-3B-7', text:'What is the main idea of this text?', opts:['Future homes will all be built from recycled materials only','Solar technology is the only solution to environmental problems','Architects are already designing innovative sustainable homes for the future'], ans:2, marks:4 }
+        ]
+      },
+      {
+        id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcq-c', marks:28, icon:'📚',
+        layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Cultural Identity: Assimilation or Diversity?',
+        passage:'Few questions divide opinion more sharply than whether immigrants should adopt the customs of their new country or maintain their own cultural identity. Supporters of integration argue that adopting the language, values, and social norms of the host country is essential for social cohesion. Without this, they say, communities remain separate and it becomes difficult to build the shared understanding a society needs. Critics argue that forcing people to abandon their cultural heritage is a form of erasure. Diversity, they insist, is a strength — bringing new ideas, artistic traditions, and perspectives to any society. A growing number of researchers now support a third position: that the question is wrongly framed. Instead of asking whether people should assimilate or preserve their identity, societies should encourage genuine two-way cultural exchange — a process in which everyone learns from everyone else. Studies show that communities where this kind of exchange is practised tend to have higher levels of social trust and stronger reported wellbeing.',
+        questions:[
+          { id:'C-3C-1', text:'According to paragraph 2, what do supporters of integration argue?', opts:['Immigrants bring valuable new ideas to society','Integration is necessary to prevent cultural erasure','Adopting the host country\'s norms is essential for social cohesion'], ans:2, marks:4 },
+          { id:'C-3C-2', text:'The word \'erasure\' (paragraph 3) most likely means...', opts:['the removal or destruction of something','a form of artistic expression','a method of improving integration'], ans:0, marks:4 },
+          { id:'C-3C-3', text:'What does the \'third position\' described in paragraph 4 suggest?', opts:['Everyone should adopt the same cultural norms','Societies should encourage genuine two-way cultural exchange','Researchers need more time to study the issue'], ans:1, marks:4 },
+          { id:'C-3C-4', text:'What do studies show about communities that practise cultural exchange?', opts:['They tend to have more economic inequality','They report higher levels of social trust and wellbeing','They lose their original cultural identity faster'], ans:1, marks:4 },
+          { id:'C-3C-5', text:'The writer\'s overall tone in this text is best described as...', opts:['strongly in favour of assimilation','strongly opposed to integration','balanced — presenting multiple perspectives fairly'], ans:2, marks:4 },
+          { id:'C-3C-6', text:'What might the writer most likely discuss NEXT?', opts:['The economic history of immigration in Europe','Practical ways to encourage cultural exchange in education and communities','Why all cultures should eventually become the same'], ans:1, marks:4 },
+          { id:'C-3C-7', text:'What is the main argument of this text?', opts:['Immigrants must adopt the norms of their new country','Cultural diversity always creates social tension','Two-way cultural exchange may be a more effective approach than forced assimilation.'], ans:2, marks:4 }
+        ]
+      }
+    ]
+  }
+];
+
+
+// ═══════════════════════════════════════════════════════════
+// GOOGLE SHEETS WEBHOOK — paste your Apps Script Web App URL here
+// (See Google_Apps_Script_Code.gs for full setup instructions)
+// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+const TEACHER_PIN = "1234";   // ← change this to your own secret PIN
+
+/* ============= GRADE 10 ADVANCED EXAMS ============= */
+const EXAMS_G10ADV = [
+  { id:'A', title:'Mock Exam A', grade:'Grade 10 Advanced', cefr:'B1.2-B2.1', sections:[
+      { id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖', layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'GA-1-1', text:'Her daily _____ from the suburb to the university takes almost ninety minutes by bus.', opts:['commute','budget','symbol'], ans:0, marks:2 },
+          { id:'GA-1-2', text:'The apartment was described as _____: only one person could stand up comfortably inside.', opts:['furnished','appealing','cramped'], ans:2, marks:2 },
+          { id:'GA-1-3', text:'Before you move in, carefully _____ your monthly _____ to make sure you can afford both the rent and the utility bills.', opts:['observe / symbols','calculate / expenses','conduct / facilities'], ans:1, marks:2 },
+          { id:'GA-1-4', text:'The professor said students must _____ the experiment carefully before drawing any conclusions.', opts:['memorize','observe','fill out'], ans:1, marks:2 },
+          { id:'GA-1-5', text:'After weighing the _____, she decided that a furnished flat near campus was the most practical option.', opts:['pros and cons','utilities','intersections'], ans:0, marks:2 }]},
+      { id:'P2', label:'Part 2 — Grammar', pill:'pill-gram', marks:10, icon:'📝', layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'Academic integrity is a concept that every university student [1] about long before they arrive on campus. If students [2] their sources carefully, they will avoid accusations of plagiarism. Many first-year students wonder [3] they are allowed to use online sources in their essays. Experienced writers understand that paraphrasing is often [4] than quoting directly. Students who enjoy [5] in academic debates tend to develop their critical thinking skills most quickly.',
+        questions:[
+          { id:'GA-2-1', text:'Gap [1]:', opts:['learns','is learned','should learn'], ans:2, marks:2 },
+          { id:'GA-2-2', text:'Gap [2]:', opts:['acknowledged','will acknowledge','acknowledge'], ans:2, marks:2 },
+          { id:'GA-2-3', text:'Gap [3]:', opts:['that','whether','what does'], ans:1, marks:2 },
+          { id:'GA-2-4', text:'Gap [4]:', opts:['more valuable','valuable','most valuable'], ans:0, marks:2 },
+          { id:'GA-2-5', text:'Gap [5]:', opts:['to participate','participated','participating'], ans:2, marks:2 }]},
+      { id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍', layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'Planet Under Stress',
+        passage:'Scientists have confirmed that global temperatures have now risen by approximately 1.2 degrees Celsius above pre-industrial levels. The primary cause is greenhouse gas emissions from industrial activity and agriculture. The consequences are clearly visible. Arctic sea ice is melting at accelerating rates. Extreme weather events are occurring more frequently and with greater intensity. Biodiversity is also under pressure. Around one million species face extinction, primarily due to habitat destruction. Tropical rainforests, which support more than half of all known species, are being cleared at an accelerating rate. Despite these developments, there is reason for cautious optimism. Renewable energy grew at record pace in 2023, and solar electricity costs have fallen by more than ninety percent since 2010.',
+        questions:[
+          { id:'GA-3A-1', text:'Global temperatures have risen by approximately 1.2 degrees above pre-industrial levels.', ans:'TRUE', marks:4 },
+          { id:'GA-3A-2', text:'The United Nations set the 2050 net-zero deadline in 2015.', ans:'NOT GIVEN', marks:4 },
+          { id:'GA-3A-3', text:'Arctic sea ice is melting more slowly than it was twenty years ago.', ans:'FALSE', marks:4 },
+          { id:'GA-3A-4', text:'Tropical rainforests support more than half of all known species on Earth.', ans:'TRUE', marks:4 },
+          { id:'GA-3A-5', text:'Solar electricity cost reductions began in the 1980s.', ans:'NOT GIVEN', marks:4 },
+          { id:'GA-3A-6', text:'One million species currently face extinction.', ans:'TRUE', marks:4 }]},
+      { id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcqb', marks:28, icon:'📖', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'The Role of Online Education',
+        passage:"Online education has grown from a small experiment into a mainstream phenomenon in less than two decades. Millions of learners worldwide access courses from universities they could never physically attend. Supporters argue this has democratised access to knowledge for people in remote areas, working adults, and those who cannot afford traditional fees. Flexibility is frequently cited as online learning's greatest advantage. Students can study at their own pace, revisit lectures, and balance education with work and family responsibilities. However, critics point to a serious problem: completion rates remain significantly lower than for traditional programmes — often below fifteen percent. Many students struggle to maintain motivation when there is no fixed timetable and no teacher present. Most researchers now support a hybrid model — combining online flexibility with the irreplaceable human connection of in-person teaching.",
+        questions:[
+          { id:'GA-3B-1', text:"What does the writer mean by 'democratised' access to knowledge?", opts:['It has reduced the quality of education','It has made quality education available to more people who previously could not access it','The government controls all online platforms'], ans:1, marks:4 },
+          { id:'GA-3B-2', text:"What is described as online learning's greatest advantage?", opts:['Its lower cost','The range of subjects available','The flexibility to study at your own pace'], ans:2, marks:4 },
+          { id:'GA-3B-3', text:'What does research show about completion rates?', opts:['They are higher than traditional programmes','They are significantly lower — often below fifteen percent','They have improved consistently over five years'], ans:1, marks:4 },
+          { id:'GA-3B-4', text:"The writer's overall tone is best described as...", opts:['Strongly enthusiastic','Balanced — acknowledging both benefits and limitations','Strongly critical'], ans:1, marks:4 },
+          { id:'GA-3B-5', text:'Why do many students struggle with online learning?', opts:['Courses are too expensive','There is no fixed timetable and no physical teacher present','The technology is unreliable'], ans:1, marks:4 },
+          { id:'GA-3B-6', text:'What solution do most researchers support?', opts:['Fully online learning for all programmes','Returning entirely to traditional teaching','A hybrid model combining online and in-person learning'], ans:2, marks:4 },
+          { id:'GA-3B-7', text:'What is the main message of this text?', opts:['Online learning has already replaced traditional universities','Online learning has benefits but real limitations — hybrid models may be best','Governments must invest more in online platforms immediately'], ans:1, marks:4 }]},
+      { id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcqc', marks:28, icon:'📚', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:"A City That's Doing Something Right",
+        passage:"While many cities struggle to reconcile economic growth with environmental responsibility, Copenhagen has established itself as a genuine model of sustainable development. The Danish capital has set one of the most ambitious climate targets of any city: to become carbon-neutral by 2025. It has invested heavily in cycling infrastructure. Today, more residents commute by bicycle than by car — a fact that seemed ordinary twenty years ago. About thirty percent of Denmark's electricity now comes from wind turbines. Copenhagen's approach is not simply about technology. City planners have actively involved residents in decision-making. Former industrial waterfront areas have been transformed into parks. Critics argue that success is partly due to Denmark's small population and high income levels. Whether the model can be replicated in larger, more complex cities remains an open question.",
+        questions:[
+          { id:'GA-3C-1', text:"What does the writer call 'extraordinary'?", opts:["Denmark's income levels",'The fact that more residents cycle than drive','The underground heating system'], ans:1, marks:4 },
+          { id:'GA-3C-2', text:"The word 'reconcile' most closely means...", opts:['prioritise one thing over another','find a balance between two opposing things','abandon a previous commitment'], ans:1, marks:4 },
+          { id:'GA-3C-3', text:'What criticism do some people make of the model?', opts:['Cycling infrastructure is dangerous',"Denmark's wealth and size make it hard to copy elsewhere",'Wind turbines are too expensive'], ans:1, marks:4 },
+          { id:'GA-3C-4', text:'Former industrial waterfront areas have been...', opts:['converted into technology parks','sold to private developers','transformed into parks and recreational spaces'], ans:2, marks:4 },
+          { id:'GA-3C-5', text:"The writer's attitude towards Copenhagen is...", opts:["Sceptical — the city's claims are exaggerated",'Admiring but realistic about limitations','Completely uncritical and enthusiastic'], ans:1, marks:4 },
+          { id:'GA-3C-6', text:'What might the writer discuss NEXT?', opts:['The history of cycling in Europe','Challenges of replicating the model in larger cities',"Denmark's economic history since 2000"], ans:1, marks:4 },
+          { id:'GA-3C-7', text:'What is the main argument of this text?', opts:["Copenhagen's model will never work elsewhere",'All cities should ban private cars','Copenhagen demonstrates that sustainable development is possible — but scaling the model remains uncertain'], ans:2, marks:4 }]}
+  ]},
+  { id:'B', title:'Mock Exam B', grade:'Grade 10 Advanced', cefr:'B1.2-B2.1', sections:[
+      { id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖', layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'GB-1-1', text:'Her professor praised her unique _____ to essay writing — using mind maps and visual summaries.', opts:['symbol','approach','major'], ans:1, marks:2 },
+          { id:'GB-1-2', text:'He found the one-hour _____ from his suburb to the university both exhausting and expensive.', opts:['budget','commute','facilities'], ans:1, marks:2 },
+          { id:'GB-1-3', text:"She couldn't afford to live alone, so she looked for a _____ flat where costs were shared with others.", opts:['secure building','furnished','cramped'], ans:1, marks:2 },
+          { id:'GB-1-4', text:'The building has excellent _____ including a gym, a swimming pool, a study room, and 24-hour security.', opts:['tenants','facilities','budgets'], ans:1, marks:2 },
+          { id:'GB-1-5', text:'Students must show _____ before entering the examination hall — a passport or student ID is required.', opts:['identification','facilities','budget'], ans:0, marks:2 }]},
+      { id:'P2', label:'Part 2 — Grammar', pill:'pill-gram', marks:10, icon:'📝', layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'Technology has changed the way university students [1] their academic work over the past two decades. If students [2] more comfortable using digital research tools, their essays would improve significantly. Many lecturers wonder [3] students understand the difference between a reliable academic source and an opinion piece. The ability to evaluate sources is now considered even [4] than knowledge of the subject itself. Students who avoid [5] their assignments too late tend to produce work of a noticeably higher standard.',
+        questions:[
+          { id:'GB-2-1', text:'Gap [1]:', opts:['conduct','have conducted','conducts'], ans:0, marks:2 },
+          { id:'GB-2-2', text:'Gap [2]:', opts:['became','will become','were'], ans:2, marks:2 },
+          { id:'GB-2-3', text:'Gap [3]:', opts:['that do','whether','what do'], ans:1, marks:2 },
+          { id:'GB-2-4', text:'Gap [4]:', opts:['more essential','most essential','essential'], ans:0, marks:2 },
+          { id:'GB-2-5', text:'Gap [5]:', opts:['to leave','leave','leaving'], ans:2, marks:2 }]},
+      { id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍', layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'The Biodiversity Crisis',
+        passage:'Scientists have raised urgent concerns about the rate at which biodiversity is declining. Around one million species currently face extinction — a rate far higher than any previous point in recorded history. The primary driver is habitat destruction. Forests, wetlands, and coral reef systems are being cleared and degraded at unprecedented speed. Agriculture accounts for the largest share of this destruction. The consequences extend beyond the disappearance of individual species. Ecosystems depend on complex webs of interaction. When key species are removed, these webs can collapse, triggering wider environmental failures. Some conservation efforts have produced encouraging results. The Arabian oryx and California condor, both declared extinct in the wild, have been reintroduced through captive breeding programmes.',
+        questions:[
+          { id:'GB-3A-1', text:'The current extinction rate is higher than at any previous point in recorded history.', ans:'TRUE', marks:4 },
+          { id:'GB-3A-2', text:'The last mass extinction event before the current one was caused by a volcanic eruption.', ans:'NOT GIVEN', marks:4 },
+          { id:'GB-3A-3', text:'Agriculture is the largest driver of habitat destruction globally.', ans:'TRUE', marks:4 },
+          { id:'GB-3A-4', text:'The Arabian oryx has been successfully reintroduced to the wild.', ans:'TRUE', marks:4 },
+          { id:'GB-3A-5', text:'Marine protected areas have reduced extinction rates to zero in some regions.', ans:'NOT GIVEN', marks:4 },
+          { id:'GB-3A-6', text:'Biodiversity loss has no impact on human communities.', ans:'FALSE', marks:4 }]},
+      { id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcqb', marks:28, icon:'📖', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Smart Cities: The Future of Urban Life?',
+        passage:"The concept of the smart city has moved from science fiction into reality. A smart city uses digital technology — sensors, data networks, and artificial intelligence — to manage urban systems more efficiently and improve residents' quality of life. In Singapore, sensors collect real-time data on traffic, water use, energy consumption, and the movement of elderly residents. This allows city managers to respond to emerging problems within minutes. Proponents argue that smart city technologies can reduce energy consumption by up to thirty percent and cut travel times significantly. In Seoul, an integrated system helped cut emergency response times by twenty percent in its first two years. However, critics raise concerns about privacy. The volume of data collected creates enormous opportunities for misuse. Civil liberties organizations argue that residents give up significant personal freedoms without being fully aware of the trade-offs. The challenge for city planners is to capture benefits while establishing robust legal frameworks that protect residents' rights.",
+        questions:[
+          { id:'GB-3B-1', text:'What is the core idea behind a smart city?', opts:['Using technology to make buildings more attractive','Creating jobs through digital investment','Using digital technology to manage urban systems more efficiently'], ans:2, marks:4 },
+          { id:'GB-3B-2', text:'What does Singapore use sensors for?', opts:['Only monitoring traffic',"Collecting data on traffic, water, energy, and residents' movements",'Replacing human workers in public services'], ans:1, marks:4 },
+          { id:'GB-3B-3', text:"What specific result did Seoul's smart system achieve?", opts:['It reduced energy consumption by 30 percent','It cut travel times across the city','It reduced emergency response times by 20 percent'], ans:2, marks:4 },
+          { id:'GB-3B-4', text:"What are critics' main concerns?", opts:['The cost is too high','The technology is unreliable','Privacy and surveillance risks from large-scale data collection'], ans:2, marks:4 },
+          { id:'GB-3B-5', text:"The word 'robust' most likely means...", opts:['flexible and adaptable','strong and effective','simple and affordable'], ans:1, marks:4 },
+          { id:'GB-3B-6', text:"The writer's overall tone is...", opts:['Strongly enthusiastic','Strongly opposed','Balanced — acknowledging benefits while identifying serious concerns'], ans:2, marks:4 },
+          { id:'GB-3B-7', text:'What is the main message of this text?', opts:['Smart cities are dangerous and must be regulated','Smart cities offer great potential but raise serious privacy concerns that have not yet been fully resolved','Technology is the only solution to urban problems'], ans:1, marks:4 }]},
+      { id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcqc', marks:28, icon:'📚', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Artificial Intelligence in Education: Promise or Problem?',
+        passage:'Artificial intelligence is beginning to transform education in ways that were difficult to predict just five years ago. From personalized learning platforms to AI tutors available around the clock, the technology is already present in classrooms worldwide. Advocates argue AI offers an unprecedented opportunity to provide personalized support to every learner, regardless of resources. In countries with severe teacher shortages, AI could provide consistent instruction to millions of children. Pilot studies in East Africa and South Asia have produced promising results. Critics, however, worry that enthusiasm for AI is outpacing the evidence. Most large-scale studies have produced mixed results, and positive outcomes tend to occur in well-resourced schools that already produce good results without AI. There is also the question of what education is fundamentally for. If it is merely about knowledge transfer, AI may be useful. But if education is also about developing character and forming meaningful relationships, no algorithm can substitute for a skilled human teacher. Technology will almost certainly become more capable. The more important question is whether societies will be thoughtful enough about how — and whether — it should be used.',
+        questions:[
+          { id:'GB-3C-1', text:"The writer says AI's presence in education is...", opts:['Still only being tested in laboratories','Not yet used in real classrooms','Already present in classrooms around the world'], ans:2, marks:4 },
+          { id:'GB-3C-2', text:'What advantage do AI advocates emphasize?', opts:['AI is cheaper than training human teachers','It can provide personalized support regardless of school resources','It eliminates the need for examinations'], ans:1, marks:4 },
+          { id:'GB-3C-3', text:'What criticism do sceptics make of the evidence?', opts:['Most studies show AI is harmful','Results have been mixed, and positive outcomes may reflect schools that were already performing well','AI is too expensive for most countries'], ans:1, marks:4 },
+          { id:'GB-3C-4', text:'What limitation of AI does the text highlight?', opts:['AI cannot teach mathematics effectively','AI cannot replace human teachers in developing character and meaningful relationships','Students find AI tutors confusing and frustrating'], ans:1, marks:4 },
+          { id:'GB-3C-5', text:"The phrase 'mixed results' suggests that...", opts:['AI has been very effective in all schools','AI has clearly failed in large-scale tests',"AI's benefits have been inconsistent — positive in some contexts, not in others"], ans:2, marks:4 },
+          { id:'GB-3C-6', text:'What might the writer discuss NEXT?', opts:['How to train more human teachers','Guidelines for the ethical and evidence-based use of AI in education','The economic benefits of replacing teachers with AI'], ans:1, marks:4 },
+          { id:'GB-3C-7', text:'What is the main message of this text?', opts:['AI will soon fully replace human teachers','Education systems should immediately ban AI tools','AI in education has genuine potential but requires careful, evidence-based decision-making'], ans:2, marks:4 }]}
+  ]},
+  { id:'C', title:'Mock Exam C', grade:'Grade 10 Advanced', cefr:'B1.2-B2.1', sections:[
+      { id:'P1', label:'Part 1 — Vocabulary', pill:'pill-vocab', marks:10, icon:'📖', layout:'single',
+        instruction:'Read each sentence. Choose the correct word or phrase. Choose A, B, or C.',
+        questions:[
+          { id:'GC-1-1', text:'The monthly _____ include electricity, water, and internet — all included in the rent price.', opts:['utilities','expenses','facilities'], ans:0, marks:2 },
+          { id:'GC-1-2', text:'Her _____ at university was philosophy — she spent four years studying the greatest thinkers of history.', opts:['symbol','major','approach'], ans:1, marks:2 },
+          { id:'GC-1-3', text:'She preferred a building with cameras and a front desk so she felt safe arriving home late at night.', opts:['secure building','furnished flat','leaking pipe'], ans:0, marks:2 },
+          { id:'GC-1-4', text:'The idea of studying in another country is very _____ to her — she has always dreamt of it.', opts:['complex','cramped','appealing'], ans:2, marks:2 },
+          { id:'GC-1-5', text:'Students are expected to _____ a piece of research and present their findings to the class.', opts:['memorize','observe','conduct'], ans:2, marks:2 }]},
+      { id:'P2', label:'Part 2 — Grammar', pill:'pill-gram', marks:10, icon:'📝', layout:'split',
+        instruction:'Read the text. Choose the correct word or phrase for each gap. Choose A, B, or C.',
+        passageTitle:'Grammar Text',
+        passage:'The relationship between technology and academic achievement is one that researchers have studied [1] for decades. If students [2] digital tools more effectively, they would produce far better research essays. Many teachers wonder [3] their students actually read academic sources carefully or simply skim for keywords. Critical reading is now considered far [4] than merely completing assignments. Students who enjoy [5] difficult academic texts report significantly higher levels of analytical skill.',
+        questions:[
+          { id:'GC-2-1', text:'Gap [1]:', opts:['closely','more closely','most closely'], ans:0, marks:2 },
+          { id:'GC-2-2', text:'Gap [2]:', opts:['used','will use','had used'], ans:2, marks:2 },
+          { id:'GC-2-3', text:'Gap [3]:', opts:['that','whether','what do'], ans:1, marks:2 },
+          { id:'GC-2-4', text:'Gap [4]:', opts:['more important','most important','important'], ans:0, marks:2 },
+          { id:'GC-2-5', text:'Gap [5]:', opts:['analysing','to analyse','analyse'], ans:0, marks:2 }]},
+      { id:'P3A', label:'Part 3A — True / False / Not Given', pill:'pill-tfng', marks:24, icon:'🔍', layout:'split', type:'tfng',
+        instruction:'Read the text. Decide if each statement is TRUE, FALSE, or NOT GIVEN.',
+        passageTitle:'Planet Under Stress',
+        passage:"The Earth's climate is changing at an unprecedented rate, driven primarily by human activity. Global temperatures have now risen by approximately 1.2 degrees Celsius above pre-industrial levels — and the pace of change is accelerating. Arctic sea ice is melting faster than at any point in recorded history. Sea levels have risen by approximately 20 centimeters over the past century. Extreme weather events are occurring more frequently. Around one million plant and animal species face extinction, primarily due to habitat destruction as forests are cleared for agriculture. Tropical rainforests, covering only 6 percent of Earth's surface, contain more than half of all known species. Renewable energy is expanding rapidly. Solar electricity costs have fallen by over 90 percent since 2010. Several governments have committed to net-zero emissions before 2050.",
+        questions:[
+          { id:'GC-3A-1', text:'Global temperatures are rising at an accelerating pace.', ans:'TRUE', marks:4 },
+          { id:'GC-3A-2', text:'Sea levels have risen by approximately 20 centimeters over the past century.', ans:'TRUE', marks:4 },
+          { id:'GC-3A-3', text:'Most world governments have already achieved net-zero emissions targets.', ans:'NOT GIVEN', marks:4 },
+          { id:'GC-3A-4', text:"Tropical rainforests cover only 6 percent of Earth's surface.", ans:'TRUE', marks:4 },
+          { id:'GC-3A-5', text:'The United Nations funded the expansion of renewable energy in 2023.', ans:'NOT GIVEN', marks:4 },
+          { id:'GC-3A-6', text:'Habitat destruction is the main cause of biodiversity loss.', ans:'TRUE', marks:4 }]},
+      { id:'P3B', label:'Part 3B — Reading (At Grade Level)', pill:'pill-mcqb', marks:28, icon:'📖', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:'Online Education: A Permanent Change?',
+        passage:'Online education grew from a marginal experiment into a global mainstream in less than two decades. Millions of learners worldwide now access courses from institutions they could never physically attend. This has democratized access for people in remote areas, working adults, and those who cannot afford traditional fees. Supporters cite flexibility as its greatest strength. Students study at their own pace, revisit recorded lectures, and balance work and family with academic study. Critics point to persistent problems: completion rates are often below fifteen percent, and many students struggle with motivation when there is no timetable or physical teacher. Research consistently shows online learners perform worse on practical assessments than their in-person counterparts. Hybrid models — combining online flexibility with in-person human connection — are increasingly seen as the most promising approach. The debate is far from settled.',
+        questions:[
+          { id:'GC-3B-1', text:'Who benefits most from online education according to paragraph 1?', opts:['Students at elite universities','Students in remote areas, working adults, and those who cannot afford traditional fees','Students who prefer to work alone'], ans:1, marks:4 },
+          { id:'GC-3B-2', text:'What does research show about online learners in practical subjects?', opts:['They perform significantly better than in-person students','They perform significantly worse than in-person students','They perform at an equal level to in-person students'], ans:1, marks:4 },
+          { id:'GC-3B-3', text:"The word 'persistent' most likely means...", opts:['temporary and fixable','continuing over a long time without improvement',"related to students' personal attitudes"], ans:1, marks:4 },
+          { id:'GC-3B-4', text:'What does the writer say about the debate on online education?', opts:['It has been fully resolved by researchers','It remains far from settled','It has been settled in favour of online-only learning'], ans:1, marks:4 },
+          { id:'GC-3B-5', text:'What are hybrid models described as?', opts:['Too expensive to implement','The most promising approach','Already used in most universities'], ans:1, marks:4 },
+          { id:'GC-3B-6', text:"The writer's tone is best described as...", opts:['Strongly critical of online education','Balanced — presenting both the case for and limitations of online learning','Strongly in favour of returning to traditional teaching only'], ans:1, marks:4 },
+          { id:'GC-3B-7', text:'What is the main message of this text?', opts:['Online learning has already replaced traditional universities','Hybrid models are the perfect solution for all students','Online learning has real strengths but significant limitations — the debate is ongoing'], ans:2, marks:4 }]},
+      { id:'P3C', label:'Part 3C — Reading (Beyond Grade Level)', pill:'pill-mcqc', marks:28, icon:'📚', layout:'split',
+        instruction:'Read the text. Choose the correct answer. Choose A, B, or C.',
+        passageTitle:"A City That's Doing Something Right",
+        passage:"While many cities struggle with the competing demands of economic growth and environmental responsibility, Copenhagen has emerged as a genuine model of sustainable urban development. The Danish capital's target is to become carbon-neutral by 2025. It has invested heavily in cycling infrastructure. Today, more residents commute by bicycle than by car — extraordinary just twenty years ago. About 30 percent of Denmark's electricity now comes from wind turbines visible along the coastline. City planners have actively involved residents in decision-making. Former polluted industrial waterfronts have become parks and recreational spaces, improving both environment and quality of life. Critics note that Copenhagen's success partly reflects Denmark's small population and high income. Whether the model is replicable in larger, less wealthy urban environments remains an open and urgent question — but the direction of travel is unmistakable.",
+        questions:[
+          { id:'GC-3C-1', text:"What does 'extraordinary' refer to in paragraph 2?", opts:["Denmark's high income levels",'The amount of electricity from wind turbines','The fact that more residents cycle than drive'], ans:2, marks:4 },
+          { id:'GC-3C-2', text:"The word 'replicable' most likely means...", opts:['worthy of admiration','able to be copied and applied elsewhere','too expensive to implement'], ans:1, marks:4 },
+          { id:'GC-3C-3', text:'What improvement have former industrial waterfronts seen?', opts:['They have been converted into commercial districts','They have been turned into parks, improving environment and quality of life','They have been preserved as heritage sites'], ans:1, marks:4 },
+          { id:'GC-3C-4', text:"What criticism do some people make of Copenhagen's success?", opts:['The cycling infrastructure causes too many accidents','The wind turbines are damaging the coastline','It may be partly due to factors specific to Denmark not shared by other cities'], ans:2, marks:4 },
+          { id:'GC-3C-5', text:"The phrase 'the direction of travel is unmistakable' suggests that...", opts:['Copenhagen has solved all its urban problems','The approach Copenhagen has taken provides a clear example for others to follow','Cycling is the only solution to urban environmental problems'], ans:1, marks:4 },
+          { id:'GC-3C-6', text:"The writer's attitude towards Copenhagen's achievements is...", opts:["Sceptical — the city's claims are exaggerated",'Admiring but realistic about potential limitations elsewhere','Completely uncritical and unconditionally positive'], ans:1, marks:4 },
+          { id:'GC-3C-7', text:'What is the main argument of this text?', opts:["Copenhagen's model is unique and cannot work anywhere else",'All cities should immediately ban private cars and invest in cycling','Copenhagen demonstrates real progress is possible — though scaling the model remains a genuinely open question'], ans:2, marks:4 }]}
+  ]}
+];
+
+const EXAMS_BY_GRADE = {
+  'Grade 9 Advanced':  EXAMS,
+  'Grade 10 General':  EXAMS,
+  'Grade 10 Advanced': EXAMS_G10ADV
+};
+
+
+// ═══════════════ STATE ═══════════════
+const S = {
+  name:'', grade:'', examIdx:null, mode:null,
+  questions:[], curQ:0, answers:{},
+  globalSec:90*60, globalRef:null,
+  qSec:0, qRef:null, startTime:null,
+  // anti-cheat counters
+  tabSwitches:0, copyAttempts:0, screenshotAttempts:0, rightClickAttempts:0
+};
+
+// ═══════════════ ANTI-CHEAT (Test Mode only) ═══════════════
+let audioCtx = null;
+function beep(freq, dur, type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = type || 'square';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+function alarmBeep() { beep(880, 0.15, 'square'); setTimeout(()=>beep(660,0.15,'square'), 180); }
+
+function inExamTestMode() {
+  const view = document.getElementById('exam-view');
+  return view && view.classList.contains('active') && S.mode === 'test';
+}
+
+function showCheatWarning(msg) {
+  let banner = document.getElementById('cheat-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'cheat-banner';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;'
+      + 'background:#c0392b;color:#fff;text-align:center;padding:10px;'
+      + 'font-family:Inter,sans-serif;font-weight:700;font-size:14px;'
+      + 'box-shadow:0 2px 10px rgba(0,0,0,.4);';
+    document.body.appendChild(banner);
+  }
+  banner.textContent = '⚠️ ' + msg + ' — This has been recorded.';
+  banner.style.display = 'block';
+  clearTimeout(banner._t);
+  banner._t = setTimeout(()=>{ banner.style.display='none'; }, 3500);
+}
+
+// Tab switch / window blur detection
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && inExamTestMode()) {
+    S.tabSwitches++;
+    alarmBeep();
+  }
+});
+window.addEventListener('blur', () => {
+  if (inExamTestMode()) {
+    S.tabSwitches++;
+    alarmBeep();
+  }
+});
+
+// Block copy / cut / right-click during test mode
+document.addEventListener('copy', (e) => {
+  if (inExamTestMode()) { e.preventDefault(); S.copyAttempts++; alarmBeep(); showCheatWarning('Copying is disabled during the exam'); }
+});
+document.addEventListener('cut', (e) => {
+  if (inExamTestMode()) { e.preventDefault(); S.copyAttempts++; alarmBeep(); showCheatWarning('Cutting is disabled during the exam'); }
+});
+document.addEventListener('contextmenu', (e) => {
+  if (inExamTestMode()) { e.preventDefault(); S.rightClickAttempts++; alarmBeep(); showCheatWarning('Right-click is disabled during the exam'); }
+});
+
+// Block common screenshot / devtools key combos
+document.addEventListener('keydown', (e) => {
+  if (!inExamTestMode()) return;
+  const k = e.key;
+  const isScreenshotCombo =
+    k === 'PrintScreen' ||
+    (e.metaKey && e.shiftKey && ['3','4','5'].includes(k)) ||      // Mac screenshot
+    (e.ctrlKey && e.shiftKey && (k === 'S' || k === 's')) ||       // Win Snip
+    (e.metaKey && e.ctrlKey && (k === 'S' || k === 's'));
+  const isDevToolsCombo =
+    k === 'F12' ||
+    (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(k)) ||
+    (e.metaKey && e.altKey && ['I','i','J','j','C','c'].includes(k));
+  const isCopyPrint =
+    (e.ctrlKey || e.metaKey) && ['c','C','x','X','p','P','u','U'].includes(k);
+
+  if (isScreenshotCombo) {
+    S.screenshotAttempts++; alarmBeep(); showCheatWarning('Screenshot attempt blocked');
+    e.preventDefault();
+  } else if (isDevToolsCombo) {
+    S.screenshotAttempts++; alarmBeep(); showCheatWarning('Developer tools are disabled during the exam');
+    e.preventDefault();
+  } else if (isCopyPrint) {
+    S.copyAttempts++; alarmBeep(); showCheatWarning('This action is disabled during the exam');
+    e.preventDefault();
+  }
+});
+
+// Disable text selection in test mode (visual deterrent)
+document.addEventListener('selectstart', (e) => {
+  if (inExamTestMode()) e.preventDefault();
+});
+
+function resetCheatCounters() {
+  S.tabSwitches = 0; S.copyAttempts = 0; S.screenshotAttempts = 0; S.rightClickAttempts = 0;
+}
+
+// ═══════════════ STORAGE — window.storage (GitHub Pages) ═══════════════
+async function sGet(key){ try{ const r=await window.storage.get(key,true); return r?JSON.parse(r.value):null; }catch(e){ return null; } }
+async function sSet(key,val){ try{ await window.storage.set(key,JSON.stringify(val),true); }catch(e){} }
+
+async function loadResults(){ return (await sGet('mockExamResults')) || []; }
+async function loadVisitors(){ return (await sGet('mockExamVisitors')) || 0; }
+
+async function sendResult(payload) {
+  try {
+    const list = await loadResults();
+    list.push(payload);
+    await sSet('mockExamResults', list);
+  } catch(err) { console.log('Could not store result:', err); }
+}
+
+async function countVisitor() {
+  try {
+    const v = (await loadVisitors()) + 1;
+    await sSet('mockExamVisitors', v);
+    const el = document.getElementById('visitor-count');
+    if (el) el.textContent = v;
+  } catch(err) { console.log('Visitor count failed:', err); }
+}
+
+// ═══════════════ LANDING ═══════════════
+function chk() {
+  const ok = document.getElementById('s-name').value.trim() &&
+             document.getElementById('s-grade').value &&
+             S.examIdx !== null && S.mode;
+  const btn = document.getElementById('go-btn');
+  btn.disabled = !ok;
+}
+function pickExam(i,btn){
+  S.examIdx=i;
+  document.querySelectorAll('.epick').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel'); chk();
+}
+function pickMode(m,btn){
+  S.mode=m;
+  document.querySelectorAll('.mpick').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel'); chk();
+}
+function go(){
+  const name=document.getElementById('s-name').value.trim();
+  const grade=document.getElementById('s-grade').value;
+  if(!name||!grade||S.examIdx===null||!S.mode) return;
+  S.name=name; S.grade=grade;
+  startExam();
+}
+
+// ═══════════════ EXAM ═══════════════
+function buildQList(exam){
+  const list=[];
+  exam.sections.forEach((sec,si)=>{
+    sec.questions.forEach((q,qi)=>list.push({si,qi,q,sec}));
+  });
+  return list;
+}
+function startExam(){
+  const exam=(EXAMS_BY_GRADE[S.grade]||EXAMS)[S.examIdx];
+  S.questions=buildQList(exam);
+  S.curQ=0; S.answers={}; S.globalSec=90*60; S.startTime=Date.now();
+  resetCheatCounters();
+  document.getElementById('tb-title').textContent=`${exam.title} — ${S.grade}`;
+  document.getElementById('tb-sub').innerHTML=`Mrs. Mona Mohamed · ${S.mode==='practice'?'Practice Mode':'Test Mode <span style="color:#ff8a80;">● Monitored</span>'}`;
+  document.body.classList.toggle('test-active', S.mode==='test');
+  showScreen('exam-view');
+  startGTimer(); renderQ();
+}
+
+// global timer
+function startGTimer(){
+  clearInterval(S.globalRef);
+  S.globalRef=setInterval(()=>{
+    S.globalSec--;
+    const m=Math.floor(S.globalSec/60), s=S.globalSec%60;
+    const el=document.getElementById('timer');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.classList.toggle('urgent',S.globalSec<300);
+    if(S.globalSec<=0){clearInterval(S.globalRef);autoSub();}
+  },1000);
+}
+
+// render
+function renderQ(){
+  const total=S.questions.length;
+  const item=S.questions[S.curQ];
+  const {sec,q,si,qi}=item;
+  const ans=S.answers;
+
+  // progress
+  const done=Object.keys(ans).length;
+  const pct=(done/total)*100;
+  document.getElementById('tb-prog').style.width=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+
+  // nav label
+  document.getElementById('nav-lbl').textContent=`§${si+1} Q${qi+1}/${sec.questions.length}`;
+  document.getElementById('nav-prev').style.display=S.mode==='practice'?'':'none';
+  document.getElementById('nav-prev').disabled=S.curQ===0;
+  document.getElementById('nav-next').disabled=S.curQ===total-1;
+
+  const body=document.getElementById('exam-body');
+  body.classList.toggle('single',sec.layout==='single');
+
+  // passage panel
+  if(sec.layout==='split'){
+    document.getElementById('pass-panel').innerHTML=renderPassage(sec);
+  }
+
+  // question panel
+  document.getElementById('q-panel').innerHTML=renderQPanel(sec,q,qi);
+
+  // q timer in test mode
+  if(S.mode==='test' && ans[q.id]===undefined){
+    clearInterval(S.qRef); S.qSec=240; startQTimer(q);
+  }
+}
+
+function renderPassage(sec){
+  let txt=sec.passage.replace(/\[(\d+)\]/g,(_,n)=>`<span class="gap-tag">[${n}]</span>`);
+  const pill=sec.pill||'pill-gram';
+  return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <span class="pass-sec-pill ${pill}">${sec.icon||''} ${sec.label}</span>
+    <span class="sec-marks">${sec.marks} marks</span>
+  </div>
+  <div class="pass-instr">${sec.instruction}</div>
+  <div class="pass-title">${sec.passageTitle}</div>
+  <div class="pass-text">${txt.replace(/\n/g,'<br>')}</div>`;
+}
+
+function renderQPanel(sec,q,qi){
+  const answered=S.answers[q.id]!==undefined;
+  const isTF=sec.type==='tfng';
+  const inTest=S.mode==='test';
+  const qInSec=sec.questions.indexOf(q)+1;
+
+  let instrHtml='';
+  if(sec.layout==='single'){
+    instrHtml=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <span class="pass-sec-pill ${sec.pill||''}">${sec.icon||''} ${sec.label}</span>
+      <span class="sec-marks">${sec.marks} marks</span>
+    </div>
+    <div class="pass-instr">${sec.instruction}</div>`;
+  }
+
+  let alertHtml='';
+  if(inTest){
+    alertHtml=`<div class="test-alert">⚡ Test Mode: Question ${qInSec} of ${sec.questions.length} — Answer before time runs out!</div>`;
+    if(!answered){
+      alertHtml+=`<div class="q-bar-track"><div class="q-bar-fill" id="qbar" style="width:100%"></div></div>
+      <div class="q-bar-lbl" id="qlbl">240 seconds remaining</div>`;
+    }
+  }
+
+  let optsHtml='';
+  if(isTF){
+    optsHtml='<div class="tfng-row">'+['TRUE','FALSE','NOT GIVEN'].map(opt=>{
+      const ua=S.answers[q.id];
+      let cls='tfng-btn';
+      if(ua===opt) cls+=' sel';
+      if(answered && S.mode==='practice'){
+        if(opt===q.ans) cls+=' ok';
+        else if(ua===opt) cls+=' bad';
+      }
+      const dis=answered&&inTest?'disabled':'';
+      return `<button class="${cls}" onclick="ansTF('${q.id}','${opt}',this)" ${dis}>${opt}</button>`;
+    }).join('')+'</div>';
+  } else {
+    optsHtml='<div class="opts">'+q.opts.map((opt,i)=>{
+      const ua=S.answers[q.id];
+      let cls='opt';
+      if(ua===i) cls+=' sel';
+      if(answered && S.mode==='practice'){
+        if(i===q.ans) cls+=' ok';
+        else if(ua===i) cls+=' bad';
+      }
+      const dis=answered&&inTest?'disabled':'';
+      return `<button class="${cls}" onclick="ansMCQ('${q.id}',${i},${q.ans},this)" ${dis}>
+        <span class="opt-let">${['A','B','C'][i]}</span><span>${opt}</span>
+      </button>`;
+    }).join('')+'</div>';
+  }
+
+  let fbHtml='';
+  if(answered && S.mode==='practice'){
+    const ua=S.answers[q.id];
+    const ok=isTF?ua===q.ans:ua===q.ans;
+    const corr=isTF?q.ans:['A','B','C'][q.ans]+'. '+q.opts[q.ans];
+    fbHtml=`<div class="fb show ${ok?'ok-fb':'bad-fb'}">${ok?'✅ Correct! Well done!':'❌ The correct answer is: <strong>'+corr+'</strong>'}</div>`;
+  }
+
+  return `${instrHtml}${alertHtml}
+  <div class="q-block">
+    <div class="q-num">QUESTION ${qInSec} · ${q.marks} MARKS</div>
+    <div class="q-text">${q.text}</div>
+    ${optsHtml}${fbHtml}
+  </div>`;
+}
+
+// q timer
+function startQTimer(q){
+  S.qSec=240;
+  clearInterval(S.qRef);
+  S.qRef=setInterval(()=>{
+    S.qSec--;
+    const bar=document.getElementById('qbar');
+    const lbl=document.getElementById('qlbl');
+    if(bar){
+      const p=(S.qSec/240)*100;
+      bar.style.width=p+'%';
+      bar.className='q-bar-fill'+(p<25?' low':p<50?' mid':'');
+    }
+    if(lbl) lbl.textContent=S.qSec+' seconds remaining';
+    if(S.qSec<=0){
+      clearInterval(S.qRef);
+      if(S.curQ<S.questions.length-1){S.curQ++;renderQ();}
+      else autoSub();
+    }
+  },1000);
+}
+
+// answers
+function ansMCQ(id,chosen,correct,btn){
+  if(S.answers[id]!==undefined && S.mode==='test') return;
+  S.answers[id]=chosen;
+  if(S.mode==='test') clearInterval(S.qRef);
+  renderQ();
+  if(S.mode==='test') setTimeout(()=>{
+    if(S.curQ<S.questions.length-1){S.curQ++;renderQ();}else autoSub();
+  },800);
+}
+function ansTF(id,chosen,btn){
+  if(S.answers[id]!==undefined && S.mode==='test') return;
+  S.answers[id]=chosen;
+  if(S.mode==='test') clearInterval(S.qRef);
+  renderQ();
+  if(S.mode==='test') setTimeout(()=>{
+    if(S.curQ<S.questions.length-1){S.curQ++;renderQ();}else autoSub();
+  },800);
+}
+
+// nav
+function nav(dir){
+  if(S.mode==='test') return;
+  const n=S.curQ+dir;
+  if(n<0||n>=S.questions.length) return;
+  S.curQ=n; renderQ();
+}
+
+// submit
+function confirmSubmit(){
+  if(confirm('Submit your exam now? You will see your results and certificate.')) submitExam();
+}
+function autoSub(){ submitExam(); }
+function exitExam(){
+  if(confirm('Exit exam? Progress will be lost.')){
+    clearInterval(S.globalRef);clearInterval(S.qRef);
+    document.body.classList.remove('test-active');
+    goLanding();
+  }
+}
+
+function submitExam(){
+  clearInterval(S.globalRef);clearInterval(S.qRef);
+  document.body.classList.remove('test-active');
+  const elapsed=Math.floor((Date.now()-S.startTime)/1000);
+  const exam=(EXAMS_BY_GRADE[S.grade]||EXAMS)[S.examIdx];
+  let total=0;
+  const parts=exam.sections.map(sec=>{
+    let earned=0,possible=0;
+    sec.questions.forEach(q=>{
+      possible+=q.marks;
+      const ua=S.answers[q.id];
+      if(sec.type==='tfng'){if(ua===q.ans)earned+=q.marks;}
+      else{if(ua===q.ans)earned+=q.marks;}
+    });
+    total+=earned;
+    return{label:sec.label,earned,possible};
+  });
+
+  // Send result to JSONBin
+  const m=Math.floor(elapsed/60), s=elapsed%60;
+  const totalFlags = S.tabSwitches + S.copyAttempts + S.screenshotAttempts + S.rightClickAttempts;
+  sendResult({
+    timestamp: new Date().toISOString(),
+    studentName: S.name,
+    grade: S.grade,
+    examTitle: exam.title,
+    mode: S.mode,
+    score: total,
+    percent: Math.round((total/100)*100),
+    timeTaken: `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`,
+    parts: parts,
+    tabSwitches: S.tabSwitches,
+    copyAttempts: S.copyAttempts,
+    screenshotAttempts: S.screenshotAttempts,
+    rightClickAttempts: S.rightClickAttempts,
+    totalFlags: totalFlags
+  });
+
+  showResults(total,elapsed,parts);
+}
+
+// ═══════════════ RESULTS ═══════════════
+function showResults(score,elapsed,parts){
+  showScreen('results-view');
+  const pct=Math.round((score/100)*100);
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  document.getElementById('rb-title').textContent=`Your Results — Mrs. Mona Mohamed`;
+  document.getElementById('rb-sub').textContent=`${S.grade.toUpperCase()} · ${(EXAMS_BY_GRADE[S.grade]||EXAMS)[S.examIdx].title.toUpperCase()} · AL DHAFRA CLUSTER`;
+
+  let gc,gLabel,gPill,msg,stars,motto,badgeCls;
+  if(pct>=90){
+    gc='ga';gLabel='✓ EXCELLENT';gPill='pass';
+    msg=`🌟 Outstanding, ${S.name}! You are fully ready for your exam!`;
+    stars='★★★★★';motto='"Excellence is not a skill — it\'s an attitude. You have both! 🌟"';badgeCls='cbr-gold';
+  } else if(pct>=75){
+    gc='gb';gLabel='✓ VERY GOOD';gPill='pass';
+    msg=`👏 Brilliant work, ${S.name}! A few more practice rounds and you'll be perfect!`;
+    stars='★★★★☆';motto='"You are closer than you think — one more push! ✨"';badgeCls='cbr-silver';
+  } else if(pct>=50){
+    gc='gc';gLabel='✓ PASS';gPill='pass';
+    msg=`💪 Good effort, ${S.name}! Keep practising — exam success is within reach!`;
+    stars='★★★☆☆';motto='"Every practice session builds your confidence. Keep going! 💪"';badgeCls='cbr-bronze';
+  } else {
+    gc='gd';gLabel='✗ KEEP TRYING';gPill='fail';
+    msg=`💪 Don't give up, ${S.name}! Every attempt makes you stronger — try another!`;
+    stars='★★☆☆☆';motto='"The secret to success is to never stop trying. You\'ve got this! ✨"';badgeCls='cbr-blue';
+  }
+
+  const circ=document.getElementById('res-circ');
+  circ.className='score-circ '+gc;
+  document.getElementById('res-pct').className='score-pct '+gc;
+  document.getElementById('res-pct').textContent=pct+'%';
+  document.getElementById('res-raw').textContent=score+'/100';
+  document.getElementById('res-msg').textContent=msg;
+  document.getElementById('res-credit').textContent=`${S.grade} · Mrs. Mona Mohamed`;
+  const pill=document.getElementById('res-pill');
+  pill.className='grade-pill '+gPill; pill.textContent=gLabel;
+  document.getElementById('st-score').textContent=score;
+  document.getElementById('st-pct').textContent=pct+'%';
+  document.getElementById('st-time').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+  // breakdown
+  const bd=document.getElementById('breakdown');
+  bd.innerHTML='<div class="bd-head">Score Breakdown by Part</div>';
+  parts.forEach(p=>{
+    const pp=p.possible>0?Math.round((p.earned/p.possible)*100):0;
+    const col=pp>=75?'#27ae60':pp>=50?'#e67e22':'#c0392b';
+    const row=document.createElement('div');
+    row.className='bd-row';
+    row.innerHTML=`<div class="bd-lbl">${p.label}</div>
+      <div class="bd-track"><div class="bd-fill" style="width:${pp}%;background:${col}"></div></div>
+      <div class="bd-sc" style="color:${col}">${p.earned}/${p.possible}</div>`;
+    bd.appendChild(row);
+  });
+
+  document.getElementById('prac-note').style.display=S.mode==='test'?'block':'none';
+
+  // cert
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('cert-name').textContent=S.name;
+  document.getElementById('cert-ach').innerHTML=
+    `for successfully completing <strong>${(EXAMS_BY_GRADE[S.grade]||EXAMS)[S.examIdx].title}</strong> — Term 3 English Practice<br>
+     ${S.grade}<br>
+     <em>"Your hard work today is your success tomorrow!"</em>`;
+  const ring=document.getElementById('cert-badge');
+  ring.className='cert-badge-ring '+badgeCls;
+  document.getElementById('cert-pct').textContent=pct+'%';
+  document.getElementById('cert-lbl').textContent=gLabel.replace('✓ ','').replace('✗ ','');
+  document.getElementById('cert-stars').textContent=stars;
+  document.getElementById('cert-motto').textContent=motto;
+  document.getElementById('cert-date').textContent='Date: '+dateStr;
+}
+
+// ═══════════════ PRINT ═══════════════
+function printCert(){
+  const cert=document.getElementById('certificate').outerHTML;
+  const w=window.open('','_blank');
+  const certTitle='Certificate — '+S.name;
+  w.document.write('<!DOCTYPE html><html><head>'
+    +'<title>'+certTitle+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">'
+    +'<style>'
+    +'body{font-family:Inter,sans-serif;margin:20px;background:#f5f5f5;}'
+    +'.cert-wrap{background:#fffdf4;border:4px double #c8a84b;border-radius:3px;max-width:800px;margin:0 auto;overflow:hidden;}'
+    +'.cert-inner-border{margin:5px;border:1.5px solid #c8a84b;border-radius:1px;overflow:hidden;}'
+    +'.cert-nav-bar{background:#1a3658;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;}'
+    +'.cert-nav-logo{height:44px;object-fit:contain;flex-shrink:0;}'
+    +'.cert-nav-title{font-size:16px;font-weight:800;color:#c8a84b;letter-spacing:2px;text-transform:uppercase;flex:1;text-align:center;}'
+    +'.cert-stars-row{background:#fffdf4;text-align:center;font-size:14px;letter-spacing:8px;color:#c8a84b;padding:5px 0;}'
+    +'.cert-body{padding:10px 32px 14px;text-align:center;}'
+    +'.cert-bg-stars{display:none;}'
+    +'.cert-appreciation{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c8a84b;margin-bottom:2px;}'
+    +'.cert-big-title{font-family:"Playfair Display",serif;font-size:28px;font-weight:900;color:#1a3658;margin-bottom:6px;}'
+    +'.cert-divider{display:flex;align-items:center;gap:10px;margin:6px 0;}'
+    +'.cert-divider::before,.cert-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#c8a84b,transparent);}'
+    +'.cert-divider span{color:#c8a84b;font-size:14px;}'
+    +'.cert-presented{font-size:12px;color:#666;margin-bottom:3px;}'
+    +'.cert-name{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:#1a3658;border-bottom:2px solid #c8a84b;display:inline-block;padding-bottom:3px;margin-bottom:6px;min-width:180px;}'
+    +'.cert-ach{font-size:12px;color:#444;line-height:1.8;margin-bottom:6px;}'
+    +'.cert-trophy{font-size:28px;margin:4px 0 2px;}'
+    +'.cert-badge-ring{width:66px;height:66px;border-radius:50%;border:3px solid;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;margin:4px 0 6px;}'
+    +'.cbr-pct{font-size:16px;font-weight:800;line-height:1;} .cbr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;}'
+    +'.cbr-gold{border-color:#c8a84b;color:#c8a84b;} .cbr-silver{border-color:#95a5a6;color:#7f8c8d;}'
+    +'.cbr-bronze{border-color:#cd7f32;color:#cd7f32;} .cbr-blue{border-color:#2980b9;color:#2980b9;}'
+    +'.cert-score-stars{font-size:16px;letter-spacing:6px;color:#c8a84b;margin-bottom:4px;}'
+    +'.cert-motto{font-size:11.5px;font-style:italic;color:#8b1a1a;font-weight:700;margin-bottom:8px;}'
+    +'.cert-sigs{display:flex;justify-content:space-around;padding-top:8px;border-top:1px solid rgba(200,168,75,.3);margin-top:6px;}'
+    +'.cert-sig{text-align:center;} .sig-line{width:130px;height:1.5px;background:#1a3658;margin:0 auto 4px;}'
+    +'.sig-name{font-size:12px;font-weight:700;color:#1a3658;} .sig-title{font-size:10px;color:#666;}'
+    +'.cert-date{font-size:10px;color:#666;margin-top:6px;}'
+    +'@media print{body{margin:0;background:white;}}'
+    +'</style>'
+    +'</head><body>'+cert+'<scr'+'ipt>window.onload=()=>window.print();<'+'/script></body></html>');
+  w.document.close();
+}
+
+// ═══════════════ UTILS ═══════════════
+function tryAnother(){
+  S.examIdx=null; S.mode=null;
+  document.querySelectorAll('.epick,.mpick').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('go-btn').disabled=true;
+  showScreen('landing');
+}
+function goLanding(){ tryAnother(); }
+// ═══════════════ TEACHER DASHBOARD ═══════════════
+let dashData = [];
+
+function openDashboard(){
+  document.getElementById('dash-gate').style.display='block';
+  document.getElementById('dash-content').style.display='none';
+  document.getElementById('dash-pin').value='';
+  document.getElementById('pin-err').style.display='none';
+  showScreen('dashboard-view');
+}
+
+function checkPin(){
+  const pin=document.getElementById('dash-pin').value.trim();
+  if(pin===TEACHER_PIN){
+    document.getElementById('dash-gate').style.display='none';
+    document.getElementById('dash-content').style.display='block';
+    refreshDashboard();
+  } else {
+    document.getElementById('pin-err').style.display='block';
+  }
+}
+
+async function refreshDashboard(){
+  try{
+    dashData = await loadResults();
+    const visitors = await loadVisitors();
+
+    document.getElementById('d-total').textContent=dashData.length;
+    const avg=dashData.length?Math.round(dashData.reduce((a,r)=>a+(r.percent||0),0)/dashData.length):0;
+    document.getElementById('d-avg').textContent=avg+'%';
+    document.getElementById('d-visitors').textContent=visitors;
+    const flags=dashData.reduce((a,r)=>a+(r.totalFlags||0),0);
+    document.getElementById('d-flags').textContent=flags;
+
+    const tbody=document.getElementById('dash-tbody');
+    tbody.innerHTML='';
+    if(dashData.length===0){
+      document.getElementById('dash-empty').style.display='block';
+    } else {
+      document.getElementById('dash-empty').style.display='none';
+      [...dashData].reverse().forEach((r,i)=>{
+        const tr=document.createElement('tr');
+        tr.style.borderBottom='1px solid #eee';
+        const flagColor=(r.totalFlags||0)>0?'#c0392b':'#27ae60';
+        const pctColor=(r.percent||0)>=50?'#27ae60':'#c0392b';
+        const when=r.timestamp?new Date(r.timestamp).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+        tr.innerHTML=`
+          <td style="padding:8px 12px;color:#999;">${dashData.length-i}</td>
+          <td style="padding:8px 12px;font-weight:600;color:var(--navy);">${esc(r.studentName||'')}</td>
+          <td style="padding:8px 12px;">${esc(r.grade||'')}</td>
+          <td style="padding:8px 12px;">${esc(r.examTitle||'')}</td>
+          <td style="padding:8px 12px;">${r.mode==='test'?'⚡ Test':'📚 Practice'}</td>
+          <td style="padding:8px 12px;font-weight:700;">${r.score||0}/100</td>
+          <td style="padding:8px 12px;font-weight:700;color:${pctColor};">${r.percent||0}%</td>
+          <td style="padding:8px 12px;">${esc(r.timeTaken||'')}</td>
+          <td style="padding:8px 12px;font-weight:700;color:${flagColor};">${r.totalFlags||0}</td>
+          <td style="padding:8px 12px;color:#999;font-size:12px;">${when}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+  }catch(err){
+    alert('Could not load results: '+err);
+  }
+}
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function exportCSV(){
+  if(dashData.length===0){alert('No results to export yet.');return;}
+  const headers=['Timestamp','Name','Grade','Exam','Mode','Score','Percent','Time',
+    'Vocabulary','Grammar','TFNG','Reading B','Reading C',
+    'Tab Switches','Copy Attempts','Screenshot Attempts','Right-Click','Total Flags'];
+  const rows=dashData.map(r=>{
+    const p=r.parts||[];
+    const pp=i=>p[i]?p[i].earned+'/'+p[i].possible:'';
+    return [r.timestamp||'',r.studentName||'',r.grade||'',r.examTitle||'',r.mode||'',
+      r.score||0,(r.percent||0)+'%',r.timeTaken||'',
+      pp(0),pp(1),pp(2),pp(3),pp(4),
+      r.tabSwitches||0,r.copyAttempts||0,r.screenshotAttempts||0,r.rightClickAttempts||0,r.totalFlags||0
+    ].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',');
+  });
+  const csv=[headers.join(','),...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='exam_results.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// count visitor on first load
+window.addEventListener('load', countVisitor);
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
