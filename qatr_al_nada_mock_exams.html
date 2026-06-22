@@ -1170,27 +1170,54 @@ function resetCheatCounters() {
   S.tabSwitches = 0; S.copyAttempts = 0; S.screenshotAttempts = 0; S.rightClickAttempts = 0;
 }
 
-// ═══════════════ STORAGE — window.storage (GitHub Pages) ═══════════════
-async function sGet(key){ try{ const r=await window.storage.get(key,true); return r?JSON.parse(r.value):null; }catch(e){ return null; } }
-async function sSet(key,val){ try{ await window.storage.set(key,JSON.stringify(val),true); }catch(e){} }
+// ═══════════════ JSONBIN STORAGE ═══════════════
+// Step 1: Go to https://jsonbin.io and sign up (free)
+// Step 2: Click API KEYS → copy your X-MASTER-KEY → paste below
+// Step 3: Click Bins → New Bin → paste { "results": [], "visitors": 0 } → Save → copy BIN ID → paste below
+const JSONBIN_MASTER_KEY = "$2a$10$yxXbbzUanXSVqI/e91DdQeJV5ctLLB0HMPnKVvX1ckgGZV5tGQY3G";
+const JSONBIN_BIN_ID     = "6a3988caf5f4af5e291ef249";
+const JSONBIN_BASE       = "https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID;
 
-async function loadResults(){ return (await sGet('mockExamResults')) || []; }
-async function loadVisitors(){ return (await sGet('mockExamVisitors')) || 0; }
+function jsonbinConfigured() {
+  return !JSONBIN_MASTER_KEY.startsWith('PASTE_') && !JSONBIN_BIN_ID.startsWith('PASTE_');
+}
+
+async function jsonbinRead() {
+  const res = await fetch(JSONBIN_BASE + "/latest", {
+    headers: { "X-Master-Key": JSONBIN_MASTER_KEY }
+  });
+  const json = await res.json();
+  const record = json.record || {};
+  if (!Array.isArray(record.results)) record.results = [];
+  if (typeof record.visitors !== 'number') record.visitors = 0;
+  return record;
+}
+
+async function jsonbinWrite(record) {
+  await fetch(JSONBIN_BASE, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_MASTER_KEY },
+    body: JSON.stringify(record)
+  });
+}
 
 async function sendResult(payload) {
+  if (!jsonbinConfigured()) return;
   try {
-    const list = await loadResults();
-    list.push(payload);
-    await sSet('mockExamResults', list);
+    const record = await jsonbinRead();
+    record.results.push(payload);
+    await jsonbinWrite(record);
   } catch(err) { console.log('Could not store result:', err); }
 }
 
 async function countVisitor() {
+  if (!jsonbinConfigured()) return;
   try {
-    const v = (await loadVisitors()) + 1;
-    await sSet('mockExamVisitors', v);
+    const record = await jsonbinRead();
+    record.visitors = (record.visitors || 0) + 1;
+    await jsonbinWrite(record);
     const el = document.getElementById('visitor-count');
-    if (el) el.textContent = v;
+    if (el) el.textContent = record.visitors;
   } catch(err) { console.log('Visitor count failed:', err); }
 }
 
@@ -1621,9 +1648,14 @@ function checkPin(){
 }
 
 async function refreshDashboard(){
+  if(!jsonbinConfigured()){
+    alert('JSONBin not set up yet! Add your Master Key and Bin ID at the top of the file.');
+    return;
+  }
   try{
-    dashData = await loadResults();
-    const visitors = await loadVisitors();
+    const record = await jsonbinRead();
+    dashData = record.results || [];
+    const visitors = record.visitors || 0;
 
     document.getElementById('d-total').textContent=dashData.length;
     const avg=dashData.length?Math.round(dashData.reduce((a,r)=>a+(r.percent||0),0)/dashData.length):0;
